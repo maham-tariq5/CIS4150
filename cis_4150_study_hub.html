@@ -1,0 +1,3004 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIS*4150: Software Reliability & Testing — Ultimate Study Hub</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* 3D Flashcard Flip Effect */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.5);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(99, 102, 241, 0.8);
+    }
+
+    /* Print styling for Cram Sheet */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #print-section, #print-section * {
+        visibility: visible;
+      }
+      #print-section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        color: #000 !important;
+        background: #fff !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-40 border-b border-slate-800 bg-slate-900/95 backdrop-blur px-4 lg:px-8 py-3 flex items-center justify-between shadow-lg">
+    <div class="flex items-center space-x-3">
+      <button id="mobile-menu-toggle" class="lg:hidden p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('dashboard')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white font-black text-xl shadow-md shadow-brand-500/20">
+          415
+        </div>
+        <div>
+          <h1 class="font-extrabold text-lg tracking-tight text-white leading-none">CIS*4150 Hub</h1>
+          <p class="text-xs text-slate-400 font-medium">Software Reliability & Testing</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Header Controls -->
+    <div class="flex items-center space-x-4">
+      <!-- Quick Progress Bar -->
+      <div class="hidden sm:flex items-center space-x-3 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/60">
+        <span class="text-xs font-semibold text-slate-300">Mastery:</span>
+        <div class="w-24 bg-slate-700 h-2 rounded-full overflow-hidden">
+          <div id="header-progress-bar" class="bg-gradient-to-r from-brand-500 to-emerald-400 h-full w-0 transition-all duration-500"></div>
+        </div>
+        <span id="header-progress-text" class="text-xs font-bold text-brand-400">0%</span>
+      </div>
+
+      <!-- Dark / Light Toggle -->
+      <button id="theme-toggle" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-amber-400 hover:bg-slate-700 transition" title="Toggle Light/Dark Theme">
+        <svg id="theme-icon-dark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg id="theme-icon-light" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </button>
+
+      <!-- Cram Sheet Shortcut -->
+      <button onclick="switchView('cram')" class="hidden md:flex items-center space-x-1.5 px-3 py-1.5 bg-brand-600/20 text-brand-300 border border-brand-500/30 rounded-lg hover:bg-brand-600 hover:text-white text-xs font-semibold transition">
+        <span>⚡ Cram Sheet</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-900 border-r border-slate-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col pt-16 lg:pt-0">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between lg:hidden">
+        <span class="font-bold text-sm text-slate-400 uppercase tracking-wider">Navigation</span>
+        <button id="mobile-menu-close" class="text-slate-400 hover:text-white">&times;</button>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto p-4 space-y-6">
+        <!-- Main Views -->
+        <div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">Overview</div>
+          <div class="space-y-1">
+            <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+              <span>Dashboard</span>
+            </button>
+            <button onclick="switchView('flashcards')" id="nav-flashcards" class="nav-btn w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              <span>Flashcards Studio</span>
+            </button>
+            <button onclick="switchView('practice')" id="nav-practice" class="nav-btn w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Practice & Quizzes</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Course Modules -->
+        <div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">Chapter Modules (1-7)</div>
+          <div class="space-y-1" id="module-nav-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Interactive Tools -->
+        <div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">Interactive Tools</div>
+          <div class="space-y-1">
+            <button onclick="switchView('isp-calc')" id="nav-isp-calc" class="nav-btn w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              <span>ISP Calculator</span>
+            </button>
+            <button onclick="switchView('exam')" id="nav-exam" class="nav-btn w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Timed Mock Exam</span>
+            </button>
+            <button onclick="switchView('cram')" id="nav-cram" class="nav-btn w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span>Cram / Quick Ref</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer Stats -->
+      <div class="p-4 border-t border-slate-800 bg-slate-900/50">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span>Cards Mastered:</span>
+          <span id="sidebar-fc-count" class="font-bold text-amber-400">0 / 0</span>
+        </div>
+        <div class="flex items-center justify-between text-xs text-slate-400 mt-1">
+          <span>MCQ Accuracy:</span>
+          <span id="sidebar-mcq-score" class="font-bold text-emerald-400">0%</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 overflow-y-auto bg-slate-950 p-4 lg:p-8 min-h-0">
+      <div class="max-w-6xl mx-auto space-y-8">
+        
+        <!-- DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-panel space-y-8">
+          <!-- Hero Banner -->
+          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-900 via-indigo-900 to-slate-900 p-6 lg:p-8 border border-brand-500/20 shadow-xl">
+            <div class="relative z-10 max-w-2xl">
+              <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-500/20 text-brand-300 border border-brand-500/30">University of Guelph • CIS*4150</span>
+              <h2 class="text-3xl lg:text-4xl font-extrabold text-white mt-3 tracking-tight">Software Reliability & Testing</h2>
+              <p class="text-slate-300 text-sm lg:text-base mt-2 leading-relaxed">
+                Comprehensive study environment based on Ammann & Offutt (2nd Ed.). Master MDTD, RIPR model, JUnit 6, Agile TDD, Input Space Partitioning, and Graph Coverage.
+              </p>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button onclick="switchView('module', 1)" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg text-sm transition shadow-lg shadow-brand-600/30">
+                  Start Module 1 Notes
+                </button>
+                <button onclick="switchView('flashcards')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg text-sm border border-slate-700 transition">
+                  Practice Flashcards
+                </button>
+                <button onclick="switchView('exam')" class="px-4 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 font-semibold rounded-lg text-sm transition">
+                  Take Full Exam
+                </button>
+              </div>
+            </div>
+            <!-- Decorative Background Graphic -->
+            <div class="absolute -right-10 -bottom-10 opacity-15 pointer-events-none">
+              <svg class="w-96 h-96 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+          </div>
+
+          <!-- Progress Overview Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex items-center space-x-4">
+              <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center text-brand-400 font-bold text-xl">
+                🎯
+              </div>
+              <div>
+                <div class="text-2xl font-black text-white" id="dash-mastery-pct">0%</div>
+                <div class="text-xs text-slate-400 font-medium">Overall Course Mastery</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex items-center space-x-4">
+              <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-xl">
+                🎴
+              </div>
+              <div>
+                <div class="text-2xl font-black text-white" id="dash-fc-mastered">0 / 0</div>
+                <div class="text-xs text-slate-400 font-medium">Flashcards Mastered</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex items-center space-x-4">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-xl">
+                📝
+              </div>
+              <div>
+                <div class="text-2xl font-black text-white" id="dash-mcq-correct">0 / 0</div>
+                <div class="text-xs text-slate-400 font-medium">MCQs Correct</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex items-center space-x-4">
+              <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold text-xl">
+                🧠
+              </div>
+              <div>
+                <div class="text-2xl font-black text-white" id="dash-ar-completed">0 / 0</div>
+                <div class="text-xs text-slate-400 font-medium">Active-Recalls Graded</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weakest Topics & Quick Action Banner -->
+          <div id="weak-topics-banner" class="hidden bg-amber-950/40 border border-amber-500/30 rounded-xl p-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <span class="text-2xl">⚠️</span>
+              <div>
+                <h4 class="font-bold text-amber-300 text-sm">Targeted Recommendation</h4>
+                <p class="text-xs text-amber-200/80" id="weak-topic-text">You have room for improvement in Chapter 6.1 & 6.2 (Input Space Partitioning).</p>
+              </div>
+            </div>
+            <button id="weak-topic-btn" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition">
+              Review Now
+            </button>
+          </div>
+
+          <!-- Chapter Hub Quick Launcher Grid -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+                <span>📚</span>
+                <span>Course Chapter Modules</span>
+              </h3>
+              <button onclick="resetAllProgress()" class="text-xs text-rose-400 hover:text-rose-300 underline font-medium">
+                Reset All Progress
+              </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="dash-module-cards">
+              <!-- Dynamically Populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- MODULE STUDY HUB VIEW -->
+        <section id="view-module" class="view-panel hidden space-y-6">
+          <!-- Module Header -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span id="module-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-500/20 text-brand-300 border border-brand-500/30">Module 1</span>
+                  <span id="module-chapter-tag" class="text-xs text-slate-400 font-semibold">Ch 1 (Ammann & Offutt)</span>
+                </div>
+                <h2 id="module-title" class="text-2xl font-extrabold text-white mt-1">Why Do We Test Software?</h2>
+                <p id="module-subtitle" class="text-slate-400 text-sm mt-1">Fault vs Error vs Failure, RIPR model foundation, software disasters, cost of late testing.</p>
+              </div>
+
+              <!-- Module Navigation Buttons -->
+              <div class="flex items-center space-x-2">
+                <button id="prev-module-btn" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition disabled:opacity-40">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <span id="module-counter-text" class="text-xs font-bold text-slate-400 px-2">1 of 8</span>
+                <button id="next-module-btn" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition disabled:opacity-40">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="flex border-b border-slate-800 mt-6 space-x-6">
+              <button onclick="switchModuleTab('notes')" id="tab-btn-notes" class="module-tab border-b-2 border-brand-500 text-brand-400 font-semibold text-sm pb-3 transition flex items-center space-x-2">
+                <span>📖 Lecture Notes</span>
+              </button>
+              <button onclick="switchModuleTab('flashcards')" id="tab-btn-flashcards" class="module-tab border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-semibold text-sm pb-3 transition flex items-center space-x-2">
+                <span>🎴 Flashcards (<span id="mod-fc-count">0</span>)</span>
+              </button>
+              <button onclick="switchModuleTab('practice')" id="tab-btn-practice" class="module-tab border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-semibold text-sm pb-3 transition flex items-center space-x-2">
+                <span>📝 Practice & Tracing (<span id="mod-quiz-count">0</span>)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB CONTENT: LECTURE NOTES -->
+          <div id="module-tab-notes" class="module-tab-content bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6 text-slate-300 leading-relaxed">
+            <!-- Dynamically Injected Notes Content -->
+          </div>
+
+          <!-- TAB CONTENT: FLASHCARDS -->
+          <div id="module-tab-flashcards" class="module-tab-content hidden space-y-6">
+            <div class="flex items-center justify-between bg-slate-900 p-4 border border-slate-800 rounded-xl">
+              <span class="text-sm text-slate-400">Mastered: <span id="mod-fc-mastered-count" class="font-bold text-amber-400">0</span> / <span id="mod-fc-total-count">0</span></span>
+              <div class="space-x-2">
+                <button onclick="shuffleModuleFlashcards()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg border border-slate-700">Shuffle</button>
+                <button onclick="resetModuleFlashcards()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg border border-slate-700">Reset</button>
+              </div>
+            </div>
+
+            <!-- Single Flashcard View -->
+            <div class="flex flex-col items-center justify-center space-y-4 py-8">
+              <div id="mod-card-container" class="w-full max-w-xl h-80 perspective-1000 cursor-pointer" onclick="flipCurrentCard('mod')">
+                <div id="mod-card-inner" class="relative w-full h-full transform-style-3d rounded-2xl border border-slate-700 bg-slate-800 shadow-2xl p-8 flex flex-col justify-between">
+                  <!-- Front -->
+                  <div class="absolute inset-0 backface-hidden p-8 flex flex-col justify-between bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl border border-slate-700">
+                    <div class="flex justify-between items-center text-xs font-bold text-brand-400 uppercase tracking-wider">
+                      <span id="mod-card-num">Card 1 of 8</span>
+                      <span class="text-slate-500">Click to Flip 🔄</span>
+                    </div>
+                    <div id="mod-card-front-text" class="text-lg lg:text-xl font-bold text-white text-center my-auto">
+                      Front Question
+                    </div>
+                    <div class="text-center text-xs text-slate-500">Tap card or Press Space to flip</div>
+                  </div>
+
+                  <!-- Back -->
+                  <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col justify-between bg-slate-850 rounded-2xl border border-brand-500/40 bg-gradient-to-b from-slate-900 to-brand-950/40">
+                    <div class="flex justify-between items-center text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                      <span>Answer Explanation</span>
+                      <span class="text-slate-500">Click to Flip 🔄</span>
+                    </div>
+                    <div id="mod-card-back-text" class="text-sm lg:text-base font-medium text-slate-200 text-center my-auto leading-relaxed">
+                      Back Answer
+                    </div>
+                    <div class="text-center text-xs text-slate-500">Mastered cards are saved to LocalStorage</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <div class="flex items-center space-x-4 pt-4">
+                <button onclick="prevCard('mod')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-semibold transition">← Prev</button>
+                <button id="mod-master-btn" onclick="toggleMasterCurrentCard('mod')" class="px-6 py-2 bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white border border-amber-500/40 rounded-lg text-sm font-bold transition">
+                  ⭐ Mark Mastered
+                </button>
+                <button onclick="nextCard('mod')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-semibold transition">Next →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB CONTENT: PRACTICE & ACTIVE RECALL -->
+          <div id="module-tab-practice" class="module-tab-content hidden space-y-8">
+            <!-- Multiple Choice Questions Sub-section -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                  <h3 class="text-xl font-bold text-white flex items-center space-x-2">
+                    <span>🔘</span>
+                    <span>Multiple Choice Questions</span>
+                  </h3>
+                  <p class="text-xs text-slate-400 mt-1">Test your recall of key definitions, formulas, and software testing principles.</p>
+                </div>
+                <span id="mod-mcq-score-badge" class="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold text-xs rounded-full">Score: 0 / 0</span>
+              </div>
+
+              <div id="mod-mcq-container" class="space-y-6">
+                <!-- MCQ Cards Injected by JS -->
+              </div>
+            </div>
+
+            <!-- Active Recall & Code Tracing Sub-section -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6">
+              <div class="border-b border-slate-800 pb-4">
+                <h3 class="text-xl font-bold text-white flex items-center space-x-2">
+                  <span>🧠</span>
+                  <span>Active Recall & Code Tracing Exercises</span>
+                </h3>
+                <p class="text-xs text-slate-400 mt-1">Write out your full answer or math step-by-step, then reveal the instructor model answer to self-assess.</p>
+              </div>
+
+              <div id="mod-ar-container" class="space-y-6">
+                <!-- Active Recall Cards Injected by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FLASHCARDS STUDIO VIEW (GLOBAL) -->
+        <section id="view-flashcards" class="view-panel hidden space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h2 class="text-2xl font-extrabold text-white flex items-center space-x-2">
+                <span>🎴</span>
+                <span>Global Flashcards Studio</span>
+              </h2>
+              <p class="text-slate-400 text-sm mt-1">Master all 60+ cards across the entire 8-module curriculum.</p>
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap items-center gap-3">
+              <select id="global-fc-filter-mod" onchange="filterGlobalDeck()" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold rounded-lg px-3 py-2">
+                <option value="all">All Modules (64 Cards)</option>
+                <option value="1">Mod 1: Why We Test</option>
+                <option value="2">Mod 2: MDTD & RIPR</option>
+                <option value="3">Mod 3: JUnit 6 & Testability</option>
+                <option value="4">Mod 4: Agile & TDD</option>
+                <option value="5">Mod 5: Criteria & Subsumption</option>
+                <option value="6">Mod 6: Input Space Partitioning</option>
+                <option value="7">Mod 7: Constraints & Iterator</option>
+                <option value="8">Mod 8: Graph Coverage</option>
+              </select>
+
+              <label class="flex items-center space-x-2 text-xs text-slate-300 font-semibold bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 cursor-pointer">
+                <input type="checkbox" id="global-fc-review-only" onchange="filterGlobalDeck()" class="rounded text-brand-500 focus:ring-brand-500">
+                <span>Needs Review Only</span>
+              </label>
+
+              <button onclick="shuffleGlobalDeck()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg border border-slate-700">Shuffle</button>
+            </div>
+          </div>
+
+          <!-- Flashcard Container -->
+          <div class="flex flex-col items-center justify-center space-y-6 py-6">
+            <div id="global-card-container" class="w-full max-w-2xl h-96 perspective-1000 cursor-pointer" onclick="flipCurrentCard('global')">
+              <div id="global-card-inner" class="relative w-full h-full transform-style-3d rounded-2xl border border-slate-700 bg-slate-800 shadow-2xl p-8 flex flex-col justify-between">
+                <!-- Front -->
+                <div class="absolute inset-0 backface-hidden p-8 flex flex-col justify-between bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl border border-slate-700">
+                  <div class="flex justify-between items-center text-xs font-bold text-brand-400 uppercase tracking-wider">
+                    <span id="global-card-num">Card 1 of 64</span>
+                    <span id="global-card-mod-tag" class="px-2 py-0.5 rounded bg-brand-500/20 text-brand-300">Mod 1</span>
+                  </div>
+                  <div id="global-card-front-text" class="text-xl lg:text-2xl font-bold text-white text-center my-auto leading-snug">
+                    Front Question
+                  </div>
+                  <div class="text-center text-xs text-slate-500">Press Space or Click to flip • Arrow keys for Next/Prev</div>
+                </div>
+
+                <!-- Back -->
+                <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col justify-between bg-slate-850 rounded-2xl border border-brand-500/40 bg-gradient-to-b from-slate-900 to-brand-950/40">
+                  <div class="flex justify-between items-center text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                    <span>Explanation & Answer</span>
+                    <span class="text-slate-500">Click to Flip 🔄</span>
+                  </div>
+                  <div id="global-card-back-text" class="text-base lg:text-lg font-medium text-slate-200 text-center my-auto leading-relaxed">
+                    Back Answer
+                  </div>
+                  <div class="text-center text-xs text-slate-500">Press 'M' on keyboard to toggle Mastered status</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center space-x-4">
+              <button onclick="prevCard('global')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition text-sm">← Prev</button>
+              <button id="global-master-btn" onclick="toggleMasterCurrentCard('global')" class="px-6 py-2.5 bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white border border-amber-500/40 rounded-xl font-bold transition text-sm">
+                ⭐ Mark Mastered
+              </button>
+              <button onclick="nextCard('global')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition text-sm">Next →</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRACTICE & QUIZZES GLOBAL VIEW -->
+        <section id="view-practice" class="view-panel hidden space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex items-center justify-between">
+            <div>
+              <h2 class="text-2xl font-extrabold text-white flex items-center space-x-2">
+                <span>📝</span>
+                <span>Practice & Quiz Hub</span>
+              </h2>
+              <p class="text-slate-400 text-sm mt-1">Review MCQs and Active-Recall problems organized by topic.</p>
+            </div>
+            <button onclick="resetAllQuizzes()" class="px-3 py-1.5 bg-rose-600/20 text-rose-300 border border-rose-500/30 hover:bg-rose-600 hover:text-white text-xs font-semibold rounded-lg transition">
+              Reset Quiz Answers
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 gap-6" id="practice-hub-modules">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+
+        <!-- INTERACTIVE ISP CALCULATOR -->
+        <section id="view-isp-calc" class="view-panel hidden space-y-8">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h2 class="text-2xl font-extrabold text-white flex items-center space-x-2">
+                  <span>🧮</span>
+                  <span>Input Space Partitioning (ISP) Test Set Calculator</span>
+                </h2>
+                <p class="text-slate-400 text-sm mt-1">Instantly compute test requirement counts for ACoC, ECC, PWC, BCC, and MBCC, and inspect generated abstract test combinations.</p>
+              </div>
+
+              <!-- Quick Presets -->
+              <div class="flex items-center space-x-2">
+                <span class="text-xs text-slate-400 font-semibold">Load Preset:</span>
+                <button onclick="loadIspPreset('student')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-brand-300 rounded text-xs font-semibold border border-slate-700">Student Ex (2,2,3,2)</button>
+                <button onclick="loadIspPreset('triangle')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-brand-300 rounded text-xs font-semibold border border-slate-700">Triangle (4,4,4)</button>
+                <button onclick="loadIspPreset('pwc')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-brand-300 rounded text-xs font-semibold border border-slate-700">PWC (2,3,2)</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Characteristic Inputs -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+              <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+                <span>1. Characteristics & Blocks</span>
+                <button onclick="addIspCharacteristic()" class="px-2.5 py-1 bg-brand-600 hover:bg-brand-500 text-white rounded text-xs font-bold transition">+ Add Characteristic</button>
+              </h3>
+
+              <div id="isp-characteristics-list" class="space-y-4">
+                <!-- Characteristic Row Template JS Injected -->
+              </div>
+
+              <!-- Base Choice Settings -->
+              <div class="pt-4 border-t border-slate-800 space-y-3">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Multiple Base Choices ($M$)</label>
+                <div class="flex items-center space-x-3">
+                  <input type="number" id="isp-base-m" value="2" min="1" max="5" class="w-20 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-sm font-bold text-center" onchange="calculateIsp()">
+                  <span class="text-xs text-slate-400">Used for MBCC calculation ($M$ base choices)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Formulas & Results -->
+            <div class="lg:col-span-2 space-y-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 border-l-4 border-l-purple-500">
+                  <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">ACoC (All Combinations)</div>
+                  <div class="text-3xl font-black text-white mt-1" id="isp-res-acoc">24</div>
+                  <div class="text-[11px] text-slate-400 mt-1 font-mono">Formula: $\prod B_i$</div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 border-l-4 border-l-emerald-500">
+                  <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">ECC (Each Choice)</div>
+                  <div class="text-3xl font-black text-white mt-1" id="isp-res-ecc">3</div>
+                  <div class="text-[11px] text-slate-400 mt-1 font-mono">Formula: $\max(B_i)$</div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 border-l-4 border-l-brand-500">
+                  <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">BCC (Base Choice)</div>
+                  <div class="text-3xl font-black text-white mt-1" id="isp-res-bcc">6</div>
+                  <div class="text-[11px] text-slate-400 mt-1 font-mono">Formula: $1 + \sum (B_i - 1)$</div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 border-l-4 border-l-amber-500">
+                  <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">MBCC (Multiple Base)</div>
+                  <div class="text-3xl font-black text-white mt-1" id="isp-res-mbcc">12</div>
+                  <div class="text-[11px] text-slate-400 mt-1 font-mono">Formula: $M + \sum M(B_i - 1)$</div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 border-l-4 border-l-rose-500">
+                  <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">PWC Pairs Count</div>
+                  <div class="text-3xl font-black text-white mt-1" id="isp-res-pwc-pairs">16</div>
+                  <div class="text-[11px] text-slate-400 mt-1 font-mono">Total 2-block combinations</div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 border-l-4 border-l-cyan-500">
+                  <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">PWC Test Bound</div>
+                  <div class="text-3xl font-black text-white mt-1" id="isp-res-pwc-bound">6</div>
+                  <div class="text-[11px] text-slate-400 mt-1 font-mono">Lower bound: $\max(B_i) \times \max_{j \neq i}(B_j)$</div>
+                </div>
+              </div>
+
+              <!-- Generated Abstract Test Table -->
+              <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h4 class="font-bold text-white text-base flex items-center space-x-2">
+                    <span>📑</span>
+                    <span>Concrete Abstract Test Cases Preview</span>
+                  </h4>
+                  <div class="flex items-center space-x-2">
+                    <button onclick="renderAbstractTests('BCC')" class="px-3 py-1 bg-brand-600 text-white rounded text-xs font-bold">BCC Set</button>
+                    <button onclick="renderAbstractTests('ECC')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold border border-slate-700">ECC Set</button>
+                    <button onclick="renderAbstractTests('ACoC')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold border border-slate-700">ACoC Set</button>
+                  </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left text-sm text-slate-300" id="isp-test-table">
+                    <!-- Dynamic Table Content -->
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TIMED MOCK EXAM GENERATOR -->
+        <section id="view-exam" class="view-panel hidden space-y-8">
+          <!-- Setup Panel -->
+          <div id="exam-setup-panel" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6 max-w-3xl mx-auto">
+            <div class="text-center space-y-2">
+              <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30">Exam Simulator</span>
+              <h2 class="text-3xl font-extrabold text-white">CIS*4150 Timed Practice Exam</h2>
+              <p class="text-slate-400 text-sm">Simulate a mid-term or final exam with randomized questions from across the course syllabus.</p>
+            </div>
+
+            <div class="space-y-4 pt-4 border-t border-slate-800">
+              <!-- Select Modules -->
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Select Included Modules</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="exam-module-options">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Question Count & Timer -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div>
+                  <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Number of Questions</label>
+                  <select id="exam-q-count" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 text-sm font-semibold">
+                    <option value="10">10 Questions (Quick Quiz)</option>
+                    <option value="20" selected>20 Questions (Standard Exam)</option>
+                    <option value="30">30 Questions (Full Final Exam)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Time Limit</label>
+                  <select id="exam-timer-opt" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 text-sm font-semibold">
+                    <option value="0">No Time Limit (Self-Paced)</option>
+                    <option value="10">10 Minutes</option>
+                    <option value="20" selected>20 Minutes</option>
+                    <option value="30">30 Minutes</option>
+                  </select>
+                </div>
+              </div>
+
+              <button onclick="startMockExam()" class="w-full py-3 bg-gradient-to-r from-rose-600 to-brand-600 hover:from-rose-500 hover:to-brand-500 text-white font-extrabold rounded-xl text-base shadow-lg transition mt-4">
+                🚀 Start Timed Exam Now
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Exam Panel -->
+          <div id="exam-active-panel" class="hidden space-y-6">
+            <!-- Exam Header Timer Bar -->
+            <div class="sticky top-16 z-20 bg-slate-900 border border-slate-800 rounded-xl p-4 flex items-center justify-between shadow-xl backdrop-blur">
+              <div class="flex items-center space-x-4">
+                <span id="exam-timer-display" class="text-xl font-black font-mono text-rose-400 bg-rose-950/50 px-3 py-1 rounded-lg border border-rose-500/30">00:00</span>
+                <span id="exam-progress-counter" class="text-sm font-bold text-slate-300">Question 1 of 20</span>
+              </div>
+              <button onclick="submitMockExam()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-sm transition">
+                Submit Exam
+              </button>
+            </div>
+
+            <div id="exam-questions-container" class="space-y-6">
+              <!-- Rendered Questions -->
+            </div>
+          </div>
+
+          <!-- Exam Results Panel -->
+          <div id="exam-results-panel" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6">
+            <div class="text-center space-y-3 border-b border-slate-800 pb-6">
+              <div id="exam-score-emoji" class="text-5xl">🏆</div>
+              <h2 class="text-3xl font-extrabold text-white">Exam Completed!</h2>
+              <div class="flex justify-center items-center space-x-6 pt-2">
+                <div>
+                  <div id="exam-final-score" class="text-4xl font-black text-brand-400">85%</div>
+                  <div class="text-xs text-slate-400 uppercase font-semibold">Final Score</div>
+                </div>
+                <div class="h-10 w-px bg-slate-800"></div>
+                <div>
+                  <div id="exam-time-taken" class="text-4xl font-black text-slate-200">12:45</div>
+                  <div class="text-xs text-slate-400 uppercase font-semibold">Time Elapsed</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Breakdown per Module -->
+            <div>
+              <h3 class="text-lg font-bold text-white mb-3">Performance Breakdown by Module</h3>
+              <div id="exam-module-breakdown" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- JS populated -->
+              </div>
+            </div>
+
+            <div class="flex justify-center space-x-4 pt-4 border-t border-slate-800">
+              <button onclick="switchView('exam')" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-sm transition">
+                Take Another Exam
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- CRAM SHEET / QUICK REFERENCE -->
+        <section id="view-cram" class="view-panel hidden space-y-8">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex items-center justify-between no-print">
+            <div>
+              <h2 class="text-2xl font-extrabold text-white flex items-center space-x-2">
+                <span>⚡</span>
+                <span>CIS*4150 High-Density Cram Sheet</span>
+              </h2>
+              <p class="text-slate-400 text-sm mt-1">Printable cheat sheet containing all essential formulas, RIPR model flow, maturity levels, JUnit 6 rules, and exam traps.</p>
+            </div>
+            <button onclick="window.print()" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg text-sm transition flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              <span>Print / Save PDF</span>
+            </button>
+          </div>
+
+          <!-- Printable Container -->
+          <div id="print-section" class="space-y-6 text-slate-200">
+            <!-- Header for Print -->
+            <div class="hidden print:block border-b pb-4 mb-4">
+              <h1 class="text-2xl font-bold">CIS*4150 Software Reliability & Testing — Cram Sheet</h1>
+              <p class="text-xs text-gray-600">Ammann & Offutt (2nd Edition) Core Reference</p>
+            </div>
+
+            <!-- Formulas Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- ISP Formulas Card -->
+              <div class="bg-slate-900 border border-slate-800 print:border-gray-300 rounded-xl p-5 space-y-3">
+                <h3 class="font-bold text-amber-400 print:text-black text-sm uppercase tracking-wider border-b border-slate-800 print:border-gray-300 pb-2">1. Input Space Partitioning Formulas</h3>
+                <ul class="text-xs space-y-1.5 font-mono">
+                  <li><strong class="text-brand-300 print:text-black">ACoC:</strong> $\prod_{i=1}^Q B_i$ (All combinations)</li>
+                  <li><strong class="text-brand-300 print:text-black">ECC:</strong> $\max_{i=1}^Q B_i$ (Each choice at least once)</li>
+                  <li><strong class="text-brand-300 print:text-black">BCC:</strong> $1 + \sum_{i=1}^Q (B_i - 1)$ (Base choice + single swaps)</li>
+                  <li><strong class="text-brand-300 print:text-black">MBCC:</strong> $M + \sum_{i=1}^Q M(B_i - 1)$ ($M$ base choices)</li>
+                  <li><strong class="text-brand-300 print:text-black">PWC Bound:</strong> $\max(B_i) \times \max_{j \neq i}(B_j)$ (Pairwise lower bound)</li>
+                  <li><strong class="text-brand-300 print:text-black">Disjointness:</strong> $b_i \cap b_j = \emptyset$ (No overlapping inputs)</li>
+                  <li><strong class="text-brand-300 print:text-black">Completeness:</strong> $\bigcup b_i = D$ (Cover entire domain)</li>
+                </ul>
+              </div>
+
+              <!-- RIPR & Terminology Card -->
+              <div class="bg-slate-900 border border-slate-800 print:border-gray-300 rounded-xl p-5 space-y-3">
+                <h3 class="font-bold text-emerald-400 print:text-black text-sm uppercase tracking-wider border-b border-slate-800 print:border-gray-300 pb-2">2. RIPR Model & Definitions</h3>
+                <ul class="text-xs space-y-1.5">
+                  <li><strong class="text-white print:text-black">Fault (Defect):</strong> Static flaw in code.</li>
+                  <li><strong class="text-white print:text-black">Error:</strong> Incorrect internal state during execution.</li>
+                  <li><strong class="text-white print:text-black">Failure:</strong> External incorrect behavior vs requirements.</li>
+                  <li><strong class="text-emerald-300 print:text-black">Reachability:</strong> Test reaches fault location.</li>
+                  <li><strong class="text-emerald-300 print:text-black">Infection:</strong> Fault execution creates incorrect state.</li>
+                  <li><strong class="text-emerald-300 print:text-black">Propagation:</strong> Incorrect state transfers to output/oracle.</li>
+                  <li><strong class="text-emerald-300 print:text-black">Revealability:</strong> Test oracle detects propagated error.</li>
+                </ul>
+              </div>
+
+              <!-- Maturity Levels & Verification -->
+              <div class="bg-slate-900 border border-slate-800 print:border-gray-300 rounded-xl p-5 space-y-3">
+                <h3 class="font-bold text-brand-400 print:text-black text-sm uppercase tracking-wider border-b border-slate-800 print:border-gray-300 pb-2">3. Test Process Maturity Levels (0-4)</h3>
+                <ol class="text-xs space-y-1 font-sans">
+                  <li><strong>L0:</strong> Testing = Debugging (no distinction).</li>
+                  <li><strong>L1:</strong> Show correctness (software works).</li>
+                  <li><strong>L2:</strong> Show failures (adversarial mindset).</li>
+                  <li><strong>L3:</strong> Reduce risk (cooperative quality assessment).</li>
+                  <li><strong>L4:</strong> Mental discipline & defect prevention (technical leaders).</li>
+                </ol>
+                <div class="text-[11px] pt-1 border-t border-slate-800 print:border-gray-300">
+                  <strong>Verification:</strong> Are we building the product right?<br>
+                  <strong>Validation:</strong> Are we building the right product?
+                </div>
+              </div>
+
+              <!-- Criteria Subsumption & Graphs -->
+              <div class="bg-slate-900 border border-slate-800 print:border-gray-300 rounded-xl p-5 space-y-3">
+                <h3 class="font-bold text-purple-400 print:text-black text-sm uppercase tracking-wider border-b border-slate-800 print:border-gray-300 pb-2">4. Subsumption & Graph Coverage</h3>
+                <ul class="text-xs space-y-1.5">
+                  <li><strong class="text-purple-300 print:text-black">Subsumption ($C_1 \to C_2$):</strong> Every test set satisfying $C_1$ satisfies $C_2$.</li>
+                  <li><strong class="text-purple-300 print:text-black">ISP Hierarchy:</strong> ACoC $\to$ TWC $\to$ PWC $\to$ ECC.</li>
+                  <li><strong class="text-purple-300 print:text-black">BCC Hierarchy:</strong> ACoC $\to$ MBCC $\to$ BCC $\to$ ECC.</li>
+                  <li><strong class="text-purple-300 print:text-black">Syntactic Reach:</strong> Graph path of edges exists.</li>
+                  <li><strong class="text-purple-300 print:text-black">Semantic Reach:</strong> Executable test input causes execution.</li>
+                  <li><strong class="text-purple-300 print:text-black">SESE Graph:</strong> $|N_0|=1$ and $|N_f|=1$ (Single entry, single exit).</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Exam Traps Cheat Checklist -->
+            <div class="bg-slate-900 border border-slate-800 print:border-gray-300 rounded-xl p-5 space-y-3 no-print">
+              <h3 class="font-bold text-rose-400 text-sm uppercase tracking-wider border-b border-slate-800 pb-2">5. Classic Exam Trap Checklist</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs" id="cram-checklist">
+                <!-- Checkboxes populated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION CORE LOGIC -->
+  <script>
+    /* ==========================================================================
+       DATA STRUCTURES & CURRICULUM CONTENT (8 MODULES)
+       ========================================================================== */
+    const MODULES = [
+      {
+        id: 1,
+        title: "Why Do We Test Software?",
+        chapterTag: "Ch 1 (Ammann & Offutt)",
+        subtitle: "Fault vs Error vs Failure, RIPR foundation, software disasters, cost of late testing.",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. The Core Terminology: Fault vs Error vs Failure</h3>
+            <p>Software testing relies on precise distinctions between defects in code, incorrect execution states, and observable system breakdowns:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-rose-500/30">
+                <h4 class="font-bold text-rose-400 text-sm uppercase">Static Fault (Defect / Bug)</h4>
+                <p class="text-xs text-slate-300 mt-1">A static flaw in software source code or design documentation (e.g., wrong loop condition <code>i = 1</code> instead of <code>i = 0</code>).</p>
+              </div>
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-amber-500/30">
+                <h4 class="font-bold text-amber-400 text-sm uppercase">Dynamic Error</h4>
+                <p class="text-xs text-slate-300 mt-1">An incorrect internal state during program execution (e.g., variable holding an unintended value inside memory).</p>
+              </div>
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-emerald-500/30">
+                <h4 class="font-bold text-emerald-400 text-sm uppercase">External Failure</h4>
+                <p class="text-xs text-slate-300 mt-1">External incorrect behavior or deviation from system requirements observable by the user or oracle.</p>
+              </div>
+            </div>
+
+            <div class="bg-brand-950/40 p-4 rounded-xl border border-brand-500/30 text-xs">
+              <strong class="text-brand-300 font-bold">Medical Analogy:</strong>
+              An infection (Fault) leads to an internal disease state (Error) which eventually manifests as outward symptoms (Failure).
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. Detailed Code Analysis: <code>numZero(int[] arr)</code></h3>
+            <p>Consider the classic classic fault example from the textbook:</p>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-brand-300 overflow-x-auto"><code>// Fault: loop starts at i = 1 instead of i = 0
+public static int numZero(int[] arr) {
+    int count = 0;
+    for (int i = 1; i < arr.length; i++) { // BUG: skips arr[0]
+        if (arr[i] == 0) {
+            count++;
+        }
+    }
+    return count;
+}</code></pre>
+            
+            <div class="space-y-2 text-xs">
+              <p>• <strong>Test 1: <code>[2, 7, 0]</code></strong> — The fault executes (loop starts at <code>i=1</code>), skipping <code>arr[0]=2</code>. Because <code>arr[0]</code> is not 0 anyway, internal <code>count</code> stays 1, returning 1. <strong>Result: Error executed, but NO Failure occurs!</strong></p>
+              <p>• <strong>Test 2: <code>[0, 2, 7]</code></strong> — The fault executes, skipping <code>arr[0]=0</code>. Count stays 0 instead of expected 1. Error propagates to return value. <strong>Result: Infection propagates to a Failure!</strong></p>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">3. Software Failure Disasters in History</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left text-slate-300 border-collapse">
+                <thead>
+                  <tr class="bg-slate-800 text-slate-200">
+                    <th class="p-2.5 border border-slate-700">Disaster / Incident</th>
+                    <th class="p-2.5 border border-slate-700">Root Cause</th>
+                    <th class="p-2.5 border border-slate-700">Cost & Impact</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-white">Intel Pentium FDIV (1994)</td>
+                    <td class="p-2.5 border border-slate-800">Missing entries in lookup table for floating point division</td>
+                    <td class="p-2.5 border border-slate-800">$475 Million recall cost</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-white">Therac-25 (1985-1987)</td>
+                    <td class="p-2.5 border border-slate-800">Race condition in radiation beam control software</td>
+                    <td class="p-2.5 border border-slate-800">3 deaths, massive radiation overdoses</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-white">Ariane 5 Flight 501 (1996)</td>
+                    <td class="p-2.5 border border-slate-800">64-bit float converted to 16-bit signed integer overflow</td>
+                    <td class="p-2.5 border border-slate-800">$370 Million rocket destroyed</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-white">Mars Climate Orbiter (1999)</td>
+                    <td class="p-2.5 border border-slate-800">Unit mismatch: Imperial lbf-s vs Metric N-s thrusters</td>
+                    <td class="p-2.5 border border-slate-800">$125 Million space probe lost</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-white">CrowdStrike Falcon (July 2024)</td>
+                    <td class="p-2.5 border border-slate-800">Invalid memory access in Channel File 291 content update</td>
+                    <td class="p-2.5 border border-slate-800 font-bold text-rose-400">8.5M machines, ~$5.4B Fortune 500 / $15B global loss</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">4. Test Process Maturity Levels (Beizer)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-2 text-center text-xs">
+              <div class="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                <div class="font-extrabold text-brand-400 text-sm">Level 0</div>
+                <div class="mt-1 font-semibold text-white">Testing = Debugging</div>
+                <div class="text-[10px] text-slate-400 mt-1">No distinction between finding and fixing bugs</div>
+              </div>
+              <div class="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                <div class="font-extrabold text-brand-400 text-sm">Level 1</div>
+                <div class="mt-1 font-semibold text-white">Show Correctness</div>
+                <div class="text-[10px] text-slate-400 mt-1">Testing to demonstrate software works</div>
+              </div>
+              <div class="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                <div class="font-extrabold text-brand-400 text-sm">Level 2</div>
+                <div class="mt-1 font-semibold text-white">Show Failures</div>
+                <div class="text-[10px] text-slate-400 mt-1">Adversarial testing to break software</div>
+              </div>
+              <div class="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                <div class="font-extrabold text-brand-400 text-sm">Level 3</div>
+                <div class="mt-1 font-semibold text-white">Reduce Risk</div>
+                <div class="text-[10px] text-slate-400 mt-1">Cooperative evaluation of quality & risk</div>
+              </div>
+              <div class="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                <div class="font-extrabold text-brand-400 text-sm">Level 4</div>
+                <div class="mt-1 font-semibold text-white">Prevent Defects</div>
+                <div class="text-[10px] text-slate-400 mt-1">Mental discipline & process improvement</div>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">5. Verification vs Validation & Cost Curve</h3>
+            <p class="text-xs">
+              • <strong>Verification (IEEE):</strong> "Are we building the product right?" (Conformance to specifications).<br>
+              • <strong>Validation (IEEE):</strong> "Are we building the right product?" (Fulfilling customer expectations).<br>
+              • <strong>Cost of Late Testing:</strong> Fixing a defect in Post-Deployment ($360K) costs 60x more than Requirements ($6K) and 18x more than Unit Testing ($20K)!
+            </p>
+          </div>
+        `,
+        flashcards: [
+          { id: "m1_fc1", front: "What is the difference between a Fault, an Error, and a Failure?", back: "Fault is a static defect in code. Error is an incorrect internal execution state. Failure is observable incorrect external behavior relative to requirements." },
+          { id: "m1_fc2", front: "In the numZero(int[] arr) code with bug i=1, why does test [2,7,0] NOT cause a failure?", back: "The fault executes and skips arr[0]=2, but since arr[0] is not zero, the state remains correct (count=1). Error is not propagated to output!" },
+          { id: "m1_fc3", front: "What is Test Process Maturity Level 2?", back: "Show Failures: Testing to show that the software does NOT work (adversarial mindset)." },
+          { id: "m1_fc4", front: "What is Test Process Maturity Level 4?", back: "Mental Discipline / Defect Prevention: Testing as a discipline to guide design and prevent defects before they enter code." },
+          { id: "m1_fc5", front: "What is IEEE Verification vs Validation?", back: "Verification: Are we building the product right? Validation: Are we building the right product?" },
+          { id: "m1_fc6", front: "What caused the 1999 Mars Climate Orbiter failure?", back: "Unit mismatch: Thruster software used Imperial units (lbf-s) while ground software expected Metric units (N-s)." },
+          { id: "m1_fc7", front: "What is the 'Date Criterion' in software testing?", back: "Stopping testing simply because the release deadline date has been reached, regardless of quality." },
+          { id: "m1_fc8", front: "According to NIST & Boehm cost curves, how much does late bug fix cost relative to early requirements?", back: "Fixing bugs post-deployment can cost $360K+ vs $6K in requirements phase (~60x cost expansion!)." }
+        ],
+        mcqs: [
+          {
+            id: "m1_q1",
+            question: "Which of the following describes an internal execution state that is incorrect?",
+            options: ["Fault", "Error", "Failure", "Defect"],
+            correct: 1,
+            explanation: "An Error is an incorrect internal state resulting from executing a Fault."
+          },
+          {
+            id: "m1_q2",
+            question: "In Maturity Level 0, what is the view on testing?",
+            options: ["Testing is defect prevention", "Testing and debugging are identical", "Testing is adversarial", "Testing reduces risk"],
+            correct: 1,
+            explanation: "Level 0 makes no distinction between testing and debugging."
+          },
+          {
+            id: "m1_q3",
+            question: "What failure was caused by converting a 64-bit float to a 16-bit signed integer?",
+            options: ["Therac-25", "Intel Pentium FDIV", "Ariane 5 Flight 501", "2003 Northeast Blackout"],
+            correct: 2,
+            explanation: "Ariane 5 exploded due to an unhandled 64-to-16 bit arithmetic overflow."
+          },
+          {
+            id: "m1_q4",
+            question: "Verification answers which question?",
+            options: ["Are we building the right product?", "Are we building the product right?", "Does the user like the software?", "Is the system fast enough?"],
+            correct: 1,
+            explanation: "Verification checks adherence to specs ('building the product right')."
+          },
+          {
+            id: "m1_q5",
+            question: "Can an Error exist during execution without causing a Failure?",
+            options: ["Yes, if the error state never propagates to observable output", "No, an error always causes an immediate failure", "Only if the code has no faults", "Yes, but only in Python"],
+            correct: 0,
+            explanation: "If an infected internal state is overwritten or masked before reachability/oracles, no failure occurs."
+          },
+          {
+            id: "m1_q6",
+            question: "What was the estimated financial cost of the CrowdStrike July 2024 outage for Fortune 500 companies?",
+            options: ["$475 Million", "$125 Million", "$5.4 Billion", "$2.08 Trillion"],
+            correct: 2,
+            explanation: "CrowdStrike's Falcon update outage caused ~$5.4B direct losses to Fortune 500 companies."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m1_ar1",
+            title: "numZero Code Tracing",
+            prompt: "For the flawed numZero function (loop starts at i=1), trace the execution state for inputs arr1 = [0, 5, 0] and arr2 = [3, 0, 0]. Identify for each test: (a) Was fault executed? (b) Was error created? (c) Did failure occur?",
+            modelAnswer: "Test arr1 = [0, 5, 0]: (a) Fault executed: yes (loop starts at i=1). (b) Error created: yes (count becomes 1 after loop instead of 2). (c) Failure occurs: yes (returns 1, expected 2).\n\nTest arr2 = [3, 0, 0]: (a) Fault executed: yes. (b) Error created: no (skipping arr[0]=3 doesn't alter count because arr[0] is not zero). (c) Failure occurs: no (returns 2, expected 2)."
+          },
+          {
+            id: "m1_ar2",
+            title: "Maturity Levels Comparison",
+            prompt: "Contrast Maturity Level 1 (Show Correctness) with Maturity Level 2 (Show Failures). Why is Level 1 dangerous for a test engineer?",
+            modelAnswer: "Level 1 seeks tests that succeed (confirming expectations), creating confirmation bias and missing edge cases. Level 2 adopts an adversarial mindset to deliberately break the software and uncover hidden faults before deployment."
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: "Model-Driven Test Design (MDTD)",
+        chapterTag: "Ch 2 (Ammann & Offutt)",
+        subtitle: "RIPR Model flow, MDTD abstraction levels, 4 Structures, 4 Test Activities.",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. Dijkstra's Principle & The RIPR Model</h3>
+            <p class="text-sm">Edgar Dijkstra famously stated: <em>"Program testing can be used to show the presence of bugs, but never to show their absence!"</em></p>
+
+            <div class="my-6 bg-slate-900 border border-slate-700 p-6 rounded-2xl">
+              <h4 class="font-extrabold text-brand-400 text-sm mb-4 uppercase tracking-wider text-center">The RIPR Model Flow Diagram</h4>
+              <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-center text-xs">
+                <div class="bg-slate-800 p-3.5 rounded-xl border border-indigo-500/40 w-full">
+                  <div class="font-bold text-indigo-300">1. Reachability</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Test reaches the location of static fault</div>
+                </div>
+                <div class="text-brand-400 font-bold hidden md:block">➔</div>
+                <div class="bg-slate-800 p-3.5 rounded-xl border border-amber-500/40 w-full">
+                  <div class="font-bold text-amber-300">2. Infection</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Fault execution causes incorrect internal state</div>
+                </div>
+                <div class="text-brand-400 font-bold hidden md:block">➔</div>
+                <div class="bg-slate-800 p-3.5 rounded-xl border border-purple-500/40 w-full">
+                  <div class="font-bold text-purple-300">3. Propagation</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Infected state propagates to observable output</div>
+                </div>
+                <div class="text-brand-400 font-bold hidden md:block">➔</div>
+                <div class="bg-slate-800 p-3.5 rounded-xl border border-emerald-500/40 w-full">
+                  <div class="font-bold text-emerald-300">4. Revealability</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Test Oracle detects and reveals the failure</div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. MDTD Test Activities & Abstraction Levels</h3>
+            <p class="text-sm">MDTD elevates test design from low-level implementation details to design-level mathematical abstractions.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs my-4">
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <h4 class="font-bold text-brand-300 uppercase text-sm mb-2">Design Abstraction Level</h4>
+                <p>• <strong>Activity 1a: Criteria-Based Design</strong> — Generate abstract Test Requirements (TR) from structures (Input space, Graphs, Logic, Syntax).</p>
+                <p class="mt-1">• <strong>Activity 1b: Human-Based Design</strong> — Apply domain knowledge and non-happy path user stories.</p>
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <h4 class="font-bold text-emerald-400 uppercase text-sm mb-2">Implementation Abstraction Level</h4>
+                <p>• <strong>Activity 2: Test Automation</strong> — Map abstract tests to concrete executable scripts (e.g. JUnit code).</p>
+                <p class="mt-1">• <strong>Activity 3: Test Execution</strong> — Run scripts against software.</p>
+                <p class="mt-1">• <strong>Activity 4: Test Evaluation</strong> — Compare outputs using Test Oracles.</p>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">3. Four Model Structures</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+              <div class="bg-slate-800/80 p-3.5 rounded-lg border border-slate-700">
+                <div class="font-bold text-amber-400">1. Input Space</div>
+                <p class="mt-1 text-slate-300">Partition parameters into domain blocks without source code.</p>
+              </div>
+              <div class="bg-slate-800/80 p-3.5 rounded-lg border border-slate-700">
+                <div class="font-bold text-purple-400">2. Graphs</div>
+                <p class="mt-1 text-slate-300">Nodes and edges from CFGs, statecharts, or use case diagrams.</p>
+              </div>
+              <div class="bg-slate-800/80 p-3.5 rounded-lg border border-slate-700">
+                <div class="font-bold text-emerald-400">3. Logic</div>
+                <p class="mt-1 text-slate-300">Boolean expressions in conditions, decision tables, or specs.</p>
+              </div>
+              <div class="bg-slate-800/80 p-3.5 rounded-lg border border-slate-700">
+                <div class="font-bold text-cyan-400">4. Syntax</div>
+                <p class="mt-1 text-slate-300">Grammars, compilers, or mutation testing operators.</p>
+              </div>
+            </div>
+          </div>
+        `,
+        flashcards: [
+          { id: "m2_fc1", front: "What are the 4 conditions of the RIPR model?", back: "Reachability, Infection, Propagation, Revealability (via Test Oracle)." },
+          { id: "m2_fc2", front: "What is Dijkstra's famous quote regarding testing?", back: "Testing can show the presence of bugs, but never their absence." },
+          { id: "m2_fc3", front: "What are the 4 Model Structures in MDTD?", back: "1. Input Space Partitioning, 2. Graphs, 3. Logic Expressions, 4. Syntax." },
+          { id: "m2_fc4", front: "What are the 4 Test Activities in MDTD?", back: "1. Test Design (1a Criteria-based, 1b Human-based), 2. Test Automation, 3. Test Execution, 4. Test Evaluation." },
+          { id: "m2_fc5", front: "What is the difference between Design Abstraction Level and Implementation Abstraction Level in MDTD?", back: "Design Abstraction works with mathematical models & test requirements (TR). Implementation Abstraction works with executable scripts and concrete values." },
+          { id: "m2_fc6", front: "Why is computeAverage(int A, int B, int C) impossible to test exhaustively?", back: "3 32-bit integers require 2^96 ≈ 7.9 x 10^28 test cases (>80 octillion inputs!), which would take trillions of years." },
+          { id: "m2_fc7", front: "What is the role of a Test Oracle?", back: "A mechanism (automated or manual) that determines whether software output matches expected behavior (Revealability)." },
+          { id: "m2_fc8", front: "Difference between OO Intra-class vs Inter-class testing levels?", back: "Intra-class tests interactions among methods within a single class. Inter-class tests interactions across multiple collaborating classes." }
+        ],
+        mcqs: [
+          {
+            id: "m2_q1",
+            question: "Which RIPR step ensures that an incorrect internal state changes the output of the program?",
+            options: ["Reachability", "Infection", "Propagation", "Revealability"],
+            correct: 2,
+            explanation: "Propagation moves the infected state through data flow to the output."
+          },
+          {
+            id: "m2_q2",
+            question: "Generating abstract Test Requirements (TR) takes place at which MDTD level?",
+            options: ["Implementation Level", "Execution Level", "Design Abstraction Level", "Evaluation Level"],
+            correct: 2,
+            explanation: "Activity 1 (Design) operates on abstract design models."
+          },
+          {
+            id: "m2_q3",
+            question: "How many total possible inputs exist for computeAverage(int A, int B, int C)?",
+            options: ["Over 80 octillion", "4.2 billion", "3 million", "100,000"],
+            correct: 0,
+            explanation: "2^32 * 2^32 * 2^32 = 2^96 ≈ 7.9 x 10^28 (~80 octillion)."
+          },
+          {
+            id: "m2_q4",
+            question: "Test Automation corresponds to which MDTD Activity?",
+            options: ["Activity 1a", "Activity 2", "Activity 3", "Activity 4"],
+            correct: 1,
+            explanation: "Activity 2 transforms abstract test cases into executable test scripts."
+          },
+          {
+            id: "m2_q5",
+            question: "If a test reaches a fault and causes an infection, but the infected memory location is overwritten before output, which RIPR stage fails?",
+            options: ["Reachability", "Infection", "Propagation", "Evaluation"],
+            correct: 2,
+            explanation: "Infection occurred, but because it was overwritten, propagation to output failed."
+          },
+          {
+            id: "m2_q6",
+            question: "Which model structure involves control flow graphs and state transition diagrams?",
+            options: ["Input Space", "Graphs", "Logic", "Syntax"],
+            correct: 1,
+            explanation: "Control flow and state machines are represented as Graphs."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m2_ar1",
+            title: "RIPR Breakdown Scenario",
+            prompt: "Suppose a function has a bug on line 12 where variable x is assigned x = y - 1 instead of x = y + 1. A test case executes line 12 with y = 0. State x becomes -1 (infected). On line 15, x is squared (x = x * x), yielding +1, which is identical to what (0 + 1)^2 would have produced. Analyze this with RIPR.",
+            modelAnswer: "1. Reachability: Satisfied (line 12 executed).\n2. Infection: Satisfied (x becomes -1 instead of +1).\n3. Propagation: FAILS! Squaring (-1)^2 produces +1, masking the infection so the downstream internal state becomes correct.\n4. Revealability: Cannot reveal because propagation failed."
+          },
+          {
+            id: "m2_ar2",
+            title: "MDTD Activity Mapping",
+            prompt: "Map the following tasks to MDTD Activities (1a, 1b, 2, 3, or 4): (A) Writing JUnit @Test methods. (B) Defining Edge-Pair Coverage requirements on a CFG. (C) Comparing actual HTTP response code with 200 OK. (D) Designing tests for a malicious user input based on experience.",
+            modelAnswer: "(A) Activity 2 (Test Automation).\n(B) Activity 1a (Criteria-Based Test Design).\n(C) Activity 4 (Test Evaluation / Oracle).\n(D) Activity 1b (Human-Based Test Design)."
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: "Test Automation & JUnit 6",
+        chapterTag: "Ch 3 (Ammann & Offutt)",
+        subtitle: "Software Testability (Observability + Controllability), JUnit 6 assertions/fixtures, Min.min(List) 7 test cases.",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. Software Testability Equation</h3>
+            <div class="p-4 bg-brand-950/40 border border-brand-500/30 rounded-xl text-sm font-semibold text-brand-300 text-center">
+              Software Testability = Observability + Controllability
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs mt-3">
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-white text-sm">Observability:</strong> How easy it is to observe the output, state, database modifications, or hardware events produced by software under test.
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-white text-sm">Controllability:</strong> How easy it is to provide inputs, set up internal states, mock dependencies, and trigger specific execution paths.
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. Components of a Complete Test Case</h3>
+            <ul class="text-xs space-y-2">
+              <li>• <strong>Test Case Values:</strong> Inputs required to execute the software.</li>
+              <li>• <strong>Expected Results (Test Oracle):</strong> Expected outputs or behavior.</li>
+              <li>• <strong>Prefix Values (Setup):</strong> Pre-state inputs required to put system into reproducible starting state.</li>
+              <li>• <strong>Postfix Values (Teardown & Verification):</strong> Actions to trigger observable outputs and cleanup environment.</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">3. JUnit 6 (Jupiter) Essentials & <code>Min.min(List)</code> Study</h3>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-brand-300 overflow-x-auto"><code>import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class MinTest {
+    @BeforeEach
+    void setUp() { /* Prefix setup */ }
+
+    @Test
+    void testSingleElement() {
+        assertEquals("a", Min.min(List.of("a")));
+    }
+
+    @Test
+    void testNullListThrowsException() {
+        assertThrows(NullPointerException.class, () -> Min.min(null));
+    }
+}</code></pre>
+
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-xs space-y-2 mt-4">
+              <h4 class="font-bold text-amber-400">The 7 Comprehensive Test Cases for <code>Min.min(List)</code>:</h4>
+              <ol class="list-decimal list-inside space-y-1">
+                <li><code>null</code> list argument ➔ <code>NullPointerException</code></li>
+                <li>Single null element in list ➔ <code>NullPointerException</code></li>
+                <li>Multiple elements with one null element ➔ <code>NullPointerException</code></li>
+                <li>Mutually incomparable raw types ➔ <code>ClassCastException</code></li>
+                <li>Empty list ➔ <code>IllegalArgumentException</code></li>
+                <li>Single valid element happy path ➔ returns element</li>
+                <li>Multiple valid elements happy path ➔ returns minimum element</li>
+              </ol>
+            </div>
+          </div>
+        `,
+        flashcards: [
+          { id: "m3_fc1", front: "What two components define Software Testability?", back: "Observability (observing outputs/state) and Controllability (controlling inputs/pre-state)." },
+          { id: "m3_fc2", front: "What are the 4 parts of a complete test case?", back: "1. Test Case Values, 2. Expected Results (Oracle), 3. Prefix Values (Setup), 4. Postfix Values (Teardown/Verify)." },
+          { id: "m3_fc3", front: "In JUnit 6, which annotation runs before each individual test method?", back: "@BeforeEach" },
+          { id: "m3_fc4", front: "How do you verify an exception is thrown in JUnit 6?", back: "assertThrows(ExpectedException.class, () -> { codeToTest(); });" },
+          { id: "m3_fc5", front: "What are the 5 exception test cases for Min.min(List)?", back: "1. Null list, 2. Single null element, 3. Multi-element with null, 4. Incomparable types (ClassCast), 5. Empty list (IllegalArgument)." },
+          { id: "m3_fc6", front: "What is the primary limitation of Test Automation?", back: "Automation executes tests quickly, but does NOT design good tests. If test design is poor, automation just runs bad tests faster." },
+          { id: "m3_fc7", front: "Difference between @ParameterizedTest with @CsvSource vs standard @Test?", back: "@ParameterizedTest runs the same test logic multiple times using a stream of different input arguments." },
+          { id: "m3_fc8", front: "What is a Test Harness?", back: "The software environment, stubs, drivers, and framework required to execute tests automatically." }
+        ],
+        mcqs: [
+          {
+            id: "m3_q1",
+            question: "Controllability in software testability refers to:",
+            options: ["The ease of observing internal variables", "The ease of providing inputs and putting system in desired state", "The speed of execution", "The compiler error level"],
+            correct: 1,
+            explanation: "Controllability is the ability to control inputs and preconditions."
+          },
+          {
+            id: "m3_q2",
+            question: "Which JUnit 6 assertion checks that an exception is thrown?",
+            options: ["assertException()", "assertThrows()", "catchException()", "failOnException()"],
+            correct: 1,
+            explanation: "assertThrows(Class, Executable) is the standard Jupiter assertion."
+          },
+          {
+            id: "m3_q3",
+            question: "In Min.min(List), passing an empty list should throw which exception?",
+            options: ["NullPointerException", "IllegalArgumentException", "ClassCastException", "IndexOutOfBoundsException"],
+            correct: 1,
+            explanation: "An empty list has no min element, throwing IllegalArgumentException."
+          },
+          {
+            id: "m3_q4",
+            question: "Which test case value component puts the software into a state to execute the test?",
+            options: ["Expected Results", "Postfix Values", "Prefix Values", "Test Oracle"],
+            correct: 2,
+            explanation: "Prefix values establish initial preconditions before running test inputs."
+          },
+          {
+            id: "m3_q5",
+            question: "Passing a list containing [\"cat\", 42] into Min.min(List) will throw:",
+            options: ["ClassCastException", "NullPointerException", "IllegalArgumentException", "ArithmeticException"],
+            correct: 0,
+            explanation: "String and Integer are mutually incomparable, throwing ClassCastException."
+          },
+          {
+            id: "m3_q6",
+            question: "Does automated testing replace manual criteria-based test design?",
+            options: ["Yes, AI automates design completely", "No, automation only automates execution, not test design", "Yes, unit test frameworks design inputs", "Only in Java"],
+            correct: 1,
+            explanation: "Automation automates execution and evaluation, but human or criteria models design test requirements."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m3_ar1",
+            title: "JUnit 6 Test Script Construction",
+            prompt: "Write a complete JUnit 6 test method verifying that calling ListUtils.divide(10, 0) throws an ArithmeticException with message '/ by zero'.",
+            modelAnswer: "@Test\nvoid testDivideByZeroThrowsException() {\n    ArithmeticException ex = assertThrows(ArithmeticException.class, () -> {\n        ListUtils.divide(10, 0);\n    });\n    assertEquals(\"/ by zero\", ex.getMessage());\n}"
+          },
+          {
+            id: "m3_ar2",
+            title: "Testability Analysis",
+            prompt: "A microservice writes log messages directly to an unmonitored external cloud file and returns void. Explain why this service has low Observability and low Controllability, and how to fix it.",
+            modelAnswer: "Low Observability: Returns void and writes to external file without returning status, making state verification hard.\nLow Controllability: Hard to inject faults or simulate network failures.\nFix: Inject a MockLogger interface dependency (Controllability) and return result status or verify mock calls (Observability)."
+          }
+        ]
+      },
+      {
+        id: 4,
+        title: "Putting Testing First (Agile & TDD)",
+        chapterTag: "Ch 4 (Ammann & Offutt)",
+        subtitle: "Cost-of-change curves, Universal vs Existential correctness, TDD Red-Green-Refactor, Testing Shortfall.",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. Traditional vs Agile Correctness Concepts</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <h4 class="font-bold text-rose-400 uppercase">Traditional Universal Correctness</h4>
+                <div class="font-mono text-brand-300 my-1">∀ x, y : P(x, y)</div>
+                <p>Assumes software is correct for ALL possible inputs x and states y against upfront requirements.</p>
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <h4 class="font-bold text-emerald-400 uppercase">Agile Existential Correctness</h4>
+                <div class="font-mono text-brand-300 my-1">Correct relative to Test Suite T</div>
+                <p>Software is deemed correct if it passes all tests in the automated regression suite (Test Harness as Guardian).</p>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. The TDD Red-Green-Refactor Cycle</h3>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-center text-xs my-4">
+              <div class="bg-rose-950/60 p-4 rounded-xl border border-rose-500/40 w-full">
+                <div class="font-black text-rose-400 text-sm">1. RED 🔴</div>
+                <div class="text-slate-300 mt-1">Write a failing automated unit test derived from user story before writing production code.</div>
+              </div>
+              <div class="text-brand-400 font-bold hidden md:block">➔</div>
+              <div class="bg-emerald-950/60 p-4 rounded-xl border border-emerald-500/40 w-full">
+                <div class="font-black text-emerald-400 text-sm">2. GREEN 🟢</div>
+                <div class="text-slate-300 mt-1">Write minimal production code necessary to pass the test as fast as possible.</div>
+              </div>
+              <div class="text-brand-400 font-bold hidden md:block">➔</div>
+              <div class="bg-brand-950/60 p-4 rounded-xl border border-brand-500/40 w-full">
+                <div class="font-black text-brand-300 text-sm">3. REFACTOR 🔵</div>
+                <div class="text-slate-300 mt-1">Clean up code structure, eliminate duplication, ensuring tests remain green.</div>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">3. The TDD Testing Shortfall</h3>
+            <div class="p-4 bg-amber-950/40 border border-amber-500/30 rounded-xl text-xs space-y-2">
+              <h4 class="font-bold text-amber-300 text-sm">⚠️ Why TDD Alone Is Not Enough:</h4>
+              <p>TDD tests are written by the developer during feature creation. Developers naturally focus on "happy path" assumptions and design thoughts. TDD misses:</p>
+              <ul class="list-disc list-inside text-slate-300 space-y-1">
+                <li>Confused-user paths (invalid inputs, non-standard workflow)</li>
+                <li>Creative-user paths (unexpected sequence of operations)</li>
+                <li>Malicious-user paths (security boundary probing, SQL injection, buffer overflows)</li>
+              </ul>
+              <p class="text-slate-200 font-semibold pt-1">Solution: Combine TDD with criteria-based model test design (MDTD)!</p>
+            </div>
+          </div>
+        `,
+        flashcards: [
+          { id: "m4_fc1", front: "What is Universal Correctness vs Existential Correctness?", back: "Universal: Software is correct for all possible inputs (forall x). Existential: Software passes the existing set of tests in harness." },
+          { id: "m4_fc2", front: "What are the 3 steps of the TDD Cycle?", back: "1. Red (Write failing test), 2. Green (Write minimal code to pass), 3. Refactor (Clean up design keeping tests green)." },
+          { id: "m4_fc3", front: "What is Continuous Integration (CI)?", back: "Practice where developers merge code into shared repository frequently, automatically building & running tests on every commit." },
+          { id: "m4_fc4", front: "What is the 'TDD Testing Shortfall'?", back: "TDD tests focus on happy path design thoughts of developer, missing confused, creative, and malicious user inputs." },
+          { id: "m4_fc5", front: "Is Test Automation a prerequisite for TDD?", back: "YES! TDD requires automated unit test execution to give fast feedback during Red-Green-Refactor." },
+          { id: "m4_fc6", front: "How should legacy un-tested code be refactored under Agile principles?", back: "First wrap legacy code with a characterization test harness before changing or refactoring code (Feathers principle)." },
+          { id: "m4_fc7", front: "Difference between User Stories and Acceptance Tests?", back: "User Story describes desired feature from user perspective. Acceptance Tests specify precise verifiable criteria to mark story complete." },
+          { id: "m4_fc8", front: "Why does Agile view anticipated changes differently from traditional waterfall?", back: "Waterfall invests heavily in upfront design for future changes that may never happen. Agile uses evolutionary design with low cost-of-change." }
+        ],
+        mcqs: [
+          {
+            id: "m4_q1",
+            question: "Which correctness view defines software as correct relative to an automated test harness?",
+            options: ["Universal Correctness", "Existential Correctness", "Model Correctness", "Static Correctness"],
+            correct: 1,
+            explanation: "Agile testing adopts Existential Correctness (passing the test suite)."
+          },
+          {
+            id: "m4_q2",
+            question: "In TDD, what must be written FIRST before production code?",
+            options: ["Detailed documentation", "Failing automated test", "Database schema", "UML class diagram"],
+            correct: 1,
+            explanation: "TDD starts with RED: writing a failing test for desired behavior."
+          },
+          {
+            id: "m4_q3",
+            question: "The TDD testing shortfall specifically misses tests for which types of users?",
+            options: ["Happy path users", "Developers", "Confused, creative, and malicious users", "Automated bots"],
+            correct: 2,
+            explanation: "TDD focuses on developer assumptions, missing edge cases from non-standard users."
+          },
+          {
+            id: "m4_q4",
+            question: "During the REFACTOR phase of TDD, test status must remain:",
+            options: ["Red (Failing)", "Green (Passing)", "Skipped", "Ignored"],
+            correct: 1,
+            explanation: "Refactoring cleans code while preserving passing green tests."
+          },
+          {
+            id: "m4_q5",
+            question: "Continuous Integration (CI) prevents which major development problem?",
+            options: ["Compiler syntax errors", "Integration hell from un-integrated long-lived branches", "Writing too many unit tests", "Slow database queries"],
+            correct: 1,
+            explanation: "Frequent commits and automated builds in CI eliminate late integration surprises."
+          },
+          {
+            id: "m4_q6",
+            question: "Does TDD eliminate the need for Criteria-Based Test Design (MDTD)?",
+            options: ["Yes, TDD covers 100% of testing", "No, TDD requires criteria-based design to catch non-happy paths", "Yes, TDD generates inputs automatically", "Only for web applications"],
+            correct: 1,
+            explanation: "MDTD complements TDD by systematically covering model structures missed in developer TDD."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m4_ar1",
+            title: "TDD Workflow Tracing",
+            prompt: "Walk through the exact TDD steps to implement a function stringReverse(String s) that throws IllegalArgumentException if input is null.",
+            modelAnswer: "1. RED: Write @Test testNullString() calling stringReverse(null) expecting IllegalArgumentException. Run test -> FAILS (method doesn't exist/returns wrong).\n2. GREEN: Implement minimal stringReverse(s) with 'if (s==null) throw new IllegalArgumentException(); return \"\";'. Run test -> PASSES.\n3. REFACTOR: Clean up method signature and code structure while rerunning test harness to ensure GREEN status."
+          },
+          {
+            id: "m4_ar2",
+            title: "Addressing Shortfall",
+            prompt: "Why does TDD fail to catch security vulnerabilities like SQL Injection, and how does model-driven criteria testing solve this?",
+            modelAnswer: "TDD tests test developer expectations for valid functionality. Developers rarely write TDD tests for SQL injection strings ('OR 1=1'). Input Space Partitioning (ISP) creates explicit blocks for boundary, special, and invalid strings (e.g. SQL syntax characters), forcing test design for malicious paths."
+          }
+        ]
+      },
+      {
+        id: 5,
+        title: "Criteria-Based Test Design",
+        chapterTag: "Ch 5 (Ammann & Offutt)",
+        subtitle: "Test Requirements (TR), Jelly Bean example, Subsumption C1->C2, Generators vs Recognizers.",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. Test Requirements (TR) vs Coverage Criterion</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-brand-300 font-bold">Coverage Criterion:</strong> A rule or metric imposing requirements on a test set (e.g., Branch Coverage, Pairwise Coverage).
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-emerald-300 font-bold">Test Requirements (TR):</strong> The explicit set of specific elements/paths that a test set must satisfy under a criterion (e.g. TR = {e1, e2, e3}).
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. The Classic Jelly Bean Controllability Example</h3>
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-xs space-y-3">
+              <p>• <strong>6 Flavours:</strong> Cherry, Lemon, Lime, Grape, Orange, Apricot.</p>
+              <p>• <strong>4 Colours:</strong> Red, Yellow, Green, Purple.</p>
+              <p>• <strong>Controllability Problem:</strong> Yellow candy can be EITHER Lemon or Apricot. Grabbing a yellow jelly bean does not guarantee which flavour you get!</p>
+              <p>• <strong>Test Set 1:</strong> T1 = {Cherry, Lime, Grape} ➔ covers 3 flavours and 3 colors (Red, Green, Purple).</p>
+              <p>• <strong>Test Set 2:</strong> T2 = {Lemon} ➔ covers 1 flavour and Yellow color.</p>
+              <p class="font-bold text-amber-400">Coverage Level = 4 / 6 Flavours = 66.6%</p>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">3. Criteria Subsumption ($C_1 \\to C_2$)</h3>
+            <div class="p-4 bg-purple-950/40 border border-purple-500/30 rounded-xl text-xs space-y-2">
+              <h4 class="font-bold text-purple-300 text-sm">Definition of Subsumption:</h4>
+              <p>Criterion $C_1$ <strong>subsumes</strong> Criterion $C_2$ if and only if <em>every test set that satisfies $C_1$ also satisfies $C_2$</em>.</p>
+              <p class="text-slate-400">Note: Subsumption is a subset relationship on test sets. Satisfying $C_1$ guarantees satisfying $C_2$.</p>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">4. Generators vs Recognizers</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-white">Generators:</strong> Algorithms that automatically construct test cases satisfying a criterion TR. Formally undecidable in general due to halting problem.
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-white">Recognizers:</strong> Algorithms that assess an existing test set and report coverage percentage. Practically useful in industry (e.g. JaCoCo).
+              </div>
+            </div>
+          </div>
+        `,
+        flashcards: [
+          { id: "m5_fc1", front: "What is the formal definition of Criteria Subsumption (C1 subsumes C2)?", back: "C1 subsumes C2 iff EVERY test set satisfying C1 also satisfies C2." },
+          { id: "m5_fc2", front: "What is a Test Requirement (TR)?", back: "A specific element (node, edge, block pair) that a test set must cover to satisfy a criterion." },
+          { id: "m5_fc3", front: "In the Jelly Bean example, why is Yellow a controllability issue?", back: "Yellow maps to both Lemon and Apricot; picking yellow doesn't control which exact flavour is drawn." },
+          { id: "m5_fc4", front: "Difference between Generators vs Recognizers in testing tools?", back: "Generators automatically create test inputs (undecidable). Recognizers measure coverage % of existing tests (practical)." },
+          { id: "m5_fc5", front: "What are Infeasible Test Requirements?", back: "TRs that cannot be satisfied by any executable test case (e.g. dead unreachable code)." },
+          { id: "m5_fc6", front: "Does 100% coverage guarantee 100% fault detection?", back: "NO! Subsumption and coverage are approximations. A test set can reach 100% coverage and still miss specific fault triggering data values." },
+          { id: "m5_fc7", front: "What are the 3 characteristics of good coverage criteria?", back: "1. Easy to compute TRs, 2. High probability of revealing faults, 3. Feasible size of test set." },
+          { id: "m5_fc8", front: "What are the 4 roadblocks to industry adoption of criteria testing?", back: "1. Lack of education, 2. Process change overhead, 3. Tool usability issues, 4. Weak tool integration." }
+        ],
+        mcqs: [
+          {
+            id: "m5_q1",
+            question: "If Criterion C1 subsumes Criterion C2, which statement is guaranteed?",
+            options: [
+              "Every test set satisfying C2 also satisfies C1",
+              "Every test set satisfying C1 also satisfies C2",
+              "C1 requires fewer tests than C2",
+              "C1 and C2 produce identical test sets"
+            ],
+            correct: 1,
+            explanation: "Subsumption means C1 is strictly stronger: satisfying C1 guarantees satisfying C2."
+          },
+          {
+            id: "m5_q2",
+            question: "Tooling like JaCoCo that measures code coverage of your unit tests is an example of a:",
+            options: ["Generator", "Recognizer", "Compiler", "Mutator"],
+            correct: 1,
+            explanation: "JaCoCo measures and reports coverage level of existing test suites (Recognizer)."
+          },
+          {
+            id: "m5_q3",
+            question: "Infeasible test requirements occur because of:",
+            options: ["Dead or unreachable code", "Fast computers", "JUnit version differences", "High testability"],
+            correct: 0,
+            explanation: "Dead code or unsatisfiable path predicates create infeasible TRs."
+          },
+          {
+            id: "m5_q4",
+            question: "In the Jelly Bean example with 6 flavours and 4 colours, if test set T covers 4 flavours, what is the flavour coverage level?",
+            options: ["100%", "66.6%", "50%", "25%"],
+            correct: 1,
+            explanation: "4 / 6 = 66.6% coverage level."
+          },
+          {
+            id: "m5_q5",
+            question: "Does Branch Coverage subsume Statement Coverage?",
+            options: ["Yes", "No", "Only in C++", "Only for loops"],
+            correct: 0,
+            explanation: "Branch coverage guarantees visiting all statements, so Branch subsumes Statement coverage."
+          },
+          {
+            id: "m5_q6",
+            question: "Why are test generators formally undecidable in general?",
+            options: ["Because computers are too slow", "Equivalent to solving the Halting Problem for arbitrary code", "Because math is imperfect", "Because of network latency"],
+            correct: 1,
+            explanation: "Generating inputs to reach arbitrary code paths reduces to the Halting Problem."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m5_ar1",
+            title: "Subsumption Proof Analysis",
+            prompt: "Suppose Criterion A has TR_A = {n1, n2, n3} and Criterion B has TR_B = {n1, n2}. Prove whether Criterion A subsumes Criterion B.",
+            modelAnswer: "Any test set T satisfying Criterion A must cover {n1, n2, n3}. Since {n1, n2} is a subset of {n1, n2, n3}, any test set covering {n1, n2, n3} automatically covers {n1, n2}. Therefore, Test Set T satisfies Criterion B. Criterion A subsumes Criterion B."
+          },
+          {
+            id: "m5_ar2",
+            title: "Infeasible Requirement Handling",
+            prompt: "If a control flow graph contains an infeasible test requirement (unreachable node due to 'if (false)'), how should a test engineer adjust the reported coverage percentage?",
+            modelAnswer: "The test engineer should identify and remove infeasible requirements from the denominator of the coverage calculation (Coverage = Satisfied TRs / (Total TRs - Infeasible TRs)), or explicitly document infeasible TRs."
+          }
+        ]
+      },
+      {
+        id: 6,
+        title: "Input Space Partitioning (IDM & Criteria)",
+        chapterTag: "Ch 6.1 & 6.2 (Ammann & Offutt)",
+        subtitle: "Partitioning rules (Disjoint & Complete), IDM 5 steps, ACoC, ECC, PWC, BCC, MBCC formulas, student example.",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. Input Domain Modeling (IDM) & Valid Partitioning Rules</h3>
+            <p class="text-xs">Partitioning divides the domain $D$ into non-overlapping sub-domains (blocks):</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs my-3">
+              <div class="bg-slate-800 p-4 rounded-xl border border-brand-500/30">
+                <h4 class="font-bold text-brand-300">1. Pairwise Disjoint</h4>
+                <div class="font-mono text-slate-300 my-1">b_i ∩ b_j = ∅ for i ≠ j</div>
+                <p>No element belongs to more than one block in a characteristic.</p>
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-emerald-500/30">
+                <h4 class="font-bold text-emerald-300">2. Complete</h4>
+                <div class="font-mono text-slate-300 my-1">⋃ b_i = D</div>
+                <p>Blocks together cover every possible valid and invalid input value.</p>
+              </div>
+            </div>
+
+            <div class="bg-amber-950/40 p-4 rounded-xl border border-amber-500/30 text-xs">
+              <strong class="text-amber-300 font-bold">List-Order Pitfall Example:</strong>
+              Partitioning list order into <code>{ascending, descending, arbitrary}</code> VIOLATES disjointness because a single-element list <code>[42]</code> or empty list <code>[]</code> is both ascending AND descending! <br>
+              <span class="text-slate-200 font-semibold">Fix: Use two boolean characteristics: C1 (Is Ascending? T/F) and C2 (Is Descending? T/F).</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. Combination Criteria Formulas Cheat Sheet</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left text-slate-300 border-collapse">
+                <thead>
+                  <tr class="bg-slate-800 text-slate-200">
+                    <th class="p-2.5 border border-slate-700">Criterion</th>
+                    <th class="p-2.5 border border-slate-700">Formula / Test Count</th>
+                    <th class="p-2.5 border border-slate-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 font-mono">
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-purple-400">ACoC</td>
+                    <td class="p-2.5 border border-slate-800">∏ B_i</td>
+                    <td class="p-2.5 border border-slate-800 font-sans">All Combinations Coverage (Cartesian product)</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-emerald-400">ECC</td>
+                    <td class="p-2.5 border border-slate-800">max(B_i)</td>
+                    <td class="p-2.5 border border-slate-800 font-sans">Each Choice Coverage (every block at least once)</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-brand-400">BCC</td>
+                    <td class="p-2.5 border border-slate-800">1 + ∑ (B_i - 1)</td>
+                    <td class="p-2.5 border border-slate-800 font-sans">Base Choice Coverage (1 base tuple + single non-base swaps)</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-amber-400">MBCC</td>
+                    <td class="p-2.5 border border-slate-800">M + ∑ M(B_i - m_i)</td>
+                    <td class="p-2.5 border border-slate-800 font-sans">Multiple Base Choice Coverage (M base tuples)</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 border border-slate-800 font-bold text-rose-400">PWC Bound</td>
+                    <td class="p-2.5 border border-slate-800">max(B_i) × max_{j ≠ i}(B_j)</td>
+                    <td class="p-2.5 border border-slate-800 font-sans">Pairwise Coverage lower bound on test count</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">3. Worked Student Example: Characteristics (A=2, B=2, C=3, D=2)</h3>
+            <div class="bg-slate-900 border border-slate-700 p-5 rounded-2xl text-xs space-y-2">
+              <p>• <strong>ACoC Count:</strong> 2 × 2 × 3 × 2 = <strong>24 tests</strong></p>
+              <p>• <strong>ECC Count:</strong> max(2, 2, 3, 2) = <strong>3 tests</strong></p>
+              <p>• <strong>BCC Count (Base choice = a1, b1, c1, d1):</strong> 1 + (2-1) + (2-1) + (3-1) + (2-1) = 1 + 1 + 1 + 2 + 1 = <strong>6 tests</strong></p>
+              <p>• <strong>MBCC Count (M=2 base choices):</strong> 2 + 2(2-1) + 2(2-1) + 2(3-1) + 2(2-1) = 2 + 2 + 2 + 4 + 2 = <strong>12 tests</strong></p>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">4. Subsumption Hierarchy for ISP</h3>
+            <div class="my-4 bg-slate-900 p-4 rounded-xl border border-slate-800 text-center text-xs">
+              <div class="font-mono text-brand-300 font-bold">ACoC ➔ TWC (t-wise) ➔ PWC (Pairwise) ➔ ECC</div>
+              <div class="font-mono text-amber-300 font-bold mt-2">ACoC ➔ MBCC ➔ BCC ➔ ECC</div>
+            </div>
+          </div>
+        `,
+        flashcards: [
+          { id: "m6_fc1", front: "What two properties must a valid Input Space Partition satisfy?", back: "1. Pairwise Disjoint (b_i ∩ b_j = ∅), 2. Complete (⋃ b_i = D)." },
+          { id: "m6_fc2", front: "Formula for ACoC (All Combinations Coverage)?", back: "Product of block counts: ∏ B_i" },
+          { id: "m6_fc3", front: "Formula for ECC (Each Choice Coverage)?", back: "Maximum block count across characteristics: max(B_i)" },
+          { id: "m6_fc4", front: "Formula for BCC (Base Choice Coverage)?", back: "1 + ∑ (B_i - 1)" },
+          { id: "m6_fc5", front: "Formula for MBCC (Multiple Base Choice Coverage with M base choices)?", back: "M + ∑ M(B_i - m_i)" },
+          { id: "m6_fc6", front: "Why does {ascending, descending, arbitrary} fail partitioning rules for a list?", back: "Fails Pairwise Disjointness because empty list [] and single element [42] are BOTH ascending and descending." },
+          { id: "m6_fc7", front: "What is the lower bound test count formula for PWC (Pairwise Coverage)?", back: "max(B_i) * max_{j ≠ i}(B_j) [product of two largest block counts]." },
+          { id: "m6_fc8", front: "What is the Subsumption hierarchy for ISP combination criteria?", back: "ACoC subsumes TWC subsumes PWC subsumes ECC; ACoC also subsumes MBCC subsumes BCC subsumes ECC." }
+        ],
+        mcqs: [
+          {
+            id: "m6_q1",
+            question: "Given 4 characteristics with block counts A=3, B=2, C=2, D=2, what is the ACoC test count?",
+            options: ["9", "24", "12", "48"],
+            correct: 1,
+            explanation: "3 * 2 * 2 * 2 = 24."
+          },
+          {
+            id: "m6_q2",
+            question: "For block counts A=3, B=2, C=2, D=2, what is the BCC test count?",
+            options: ["3", "6", "24", "10"],
+            correct: 1,
+            explanation: "1 + (3-1) + (2-1) + (2-1) + (2-1) = 1 + 2 + 1 + 1 + 1 = 6."
+          },
+          {
+            id: "m6_q3",
+            question: "Which criteria guarantees testing every combination of blocks for ANY 2 characteristics?",
+            options: ["ECC", "PWC (Pairwise)", "BCC", "MBCC"],
+            correct: 1,
+            explanation: "Pairwise Coverage (PWC) covers all 2-way combinations."
+          },
+          {
+            id: "m6_q4",
+            question: "What is the ECC test count for block counts 4, 3, 5, 2?",
+            options: ["5", "120", "11", "20"],
+            correct: 0,
+            explanation: "ECC = max(4, 3, 5, 2) = 5."
+          },
+          {
+            id: "m6_q5",
+            question: "Partitioning triang(side1, side2, side3) into {scalene, isosceles, equilateral} fails disjointness because:",
+            options: ["Equilateral triangles are a subset of Isosceles triangles", "Scalene triangles are invalid", "Side length cannot be negative", "It lacks invalid values"],
+            correct: 0,
+            explanation: "All equilateral triangles are also isosceles, violating pairwise disjointness."
+          },
+          {
+            id: "m6_q6",
+            question: "For A=2, B=3, C=2, what is the PWC lower bound on test count?",
+            options: ["6", "12", "3", "7"],
+            correct: 0,
+            explanation: "max(B_i) * second_max(B_i) = 3 * 2 = 6."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m6_ar1",
+            title: "ISP Math Calculations",
+            prompt: "Suppose a function has 5 parameters with block counts: A=2, B=3, C=4, D=2, E=2. Calculate exact test counts for: (1) ACoC, (2) ECC, (3) BCC, (4) PWC lower bound.",
+            modelAnswer: "1. ACoC = 2 * 3 * 4 * 2 * 2 = 96 tests.\n2. ECC = max(2,3,4,2,2) = 4 tests.\n3. BCC = 1 + (2-1) + (3-1) + (4-1) + (2-1) + (2-1) = 1 + 1 + 2 + 3 + 1 + 1 = 9 tests.\n4. PWC Bound = max * 2nd_max = 4 * 3 = 12 tests."
+          },
+          {
+            id: "m6_ar2",
+            title: "Partition Repair Exercise",
+            prompt: "A student models input string length as: Block 1: len < 5, Block 2: 5 <= len <= 10, Block 3: len > 10. (a) Is this partition valid? (b) Suggest an improvement for boundary testing.",
+            modelAnswer: "(a) Yes, it is pairwise disjoint and complete for all non-negative integers.\n(b) Improvement for boundary testing: Add explicit boundary blocks: len = 0 (empty string), len = 5, len = 10 to target edge cases."
+          }
+        ]
+      },
+      {
+        id: 7,
+        title: "Constraints & Iterator Extended Example",
+        chapterTag: "Ch 6.3 & 6.4 (Ammann & Offutt)",
+        subtitle: "Handling constraints in ISP, full java.util.Iterator walkthrough (C1-C5 characteristics, TR tables).",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. Handling Constraints in ISP</h3>
+            <p class="text-xs">In real systems, certain block combinations are logically or syntactically impossible (e.g. searching for an element in a <code>null</code> or <code>empty</code> list):</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs my-3">
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <h4 class="font-bold text-amber-400">In ACoC / PWC / TWC</h4>
+                <p class="mt-1">Simply drop infeasible combinations from the generated Test Requirements (TR) set.</p>
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <h4 class="font-bold text-brand-300">In BCC / MBCC</h4>
+                <p class="mt-1">When combining a base choice with an invalid block of another characteristic, replace the base choice with a compatible non-base choice to preserve feasibility.</p>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. Extended Study: <code>java.util.Iterator</code> Characteristics</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left text-slate-300 border-collapse">
+                <thead>
+                  <tr class="bg-slate-800 text-slate-200">
+                    <th class="p-2 border border-slate-700">Char ID</th>
+                    <th class="p-2 border border-slate-700">Description</th>
+                    <th class="p-2 border border-slate-700">Block 1 (True)</th>
+                    <th class="p-2 border border-slate-700">Block 2 (False)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 font-mono">
+                  <tr>
+                    <td class="p-2 border border-slate-800 font-bold text-brand-400">C1</td>
+                    <td class="p-2 border border-slate-800 font-sans">More elements in iterator?</td>
+                    <td class="p-2 border border-slate-800">b1: True</td>
+                    <td class="p-2 border border-slate-800">b2: False</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-slate-800 font-bold text-brand-400">C2</td>
+                    <td class="p-2 border border-slate-800 font-sans">Object returned / state?</td>
+                    <td class="p-2 border border-slate-800">b1: True</td>
+                    <td class="p-2 border border-slate-800">b2: False (Fixed F for remove)</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-slate-800 font-bold text-brand-400">C3</td>
+                    <td class="p-2 border border-slate-800 font-sans">remove() supported?</td>
+                    <td class="p-2 border border-slate-800">b1: True</td>
+                    <td class="p-2 border border-slate-800">b2: False (UnsupportedOperationException)</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-slate-800 font-bold text-brand-400">C4</td>
+                    <td class="p-2 border border-slate-800 font-sans">next() called since last remove()?</td>
+                    <td class="p-2 border border-slate-800">b1: True</td>
+                    <td class="p-2 border border-slate-800">b2: False (IllegalStateException)</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-slate-800 font-bold text-brand-400">C5</td>
+                    <td class="p-2 border border-slate-800 font-sans">Collection not modified externally?</td>
+                    <td class="p-2 border border-slate-800">b1: True</td>
+                    <td class="p-2 border border-slate-800">b2: False (ConcurrentModificationException)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-xs space-y-2 mt-4">
+              <h4 class="font-bold text-emerald-400">Revision Note on <code>hasNext()</code> & <code>testHasNext_C5</code>:</h4>
+              <p>In theory, C5=False triggers <code>ConcurrentModificationException</code>. However, in standard Java Iterator implementations, <code>hasNext()</code> does NOT check modification counts, whereas <code>next()</code> does. This highlights the vital difference between pure functional specifications and actual implementation details!</p>
+            </div>
+          </div>
+        `,
+        flashcards: [
+          { id: "m7_fc1", front: "How are infeasible constraints handled in ACoC vs BCC?", back: "In ACoC, drop invalid combinations. In BCC, replace base choice with another compatible non-base choice." },
+          { id: "m7_fc2", front: "What exception is expected when calling Iterator.remove() if next() was NOT called first?", back: "IllegalStateException (violates precondition C4)." },
+          { id: "m7_fc3", front: "What exception is thrown if underlying collection does NOT support remove()?", back: "UnsupportedOperationException (C3 = False)." },
+          { id: "m7_fc4", front: "What exception is thrown if collection is modified externally during iteration?", back: "ConcurrentModificationException (C5 = False)." },
+          { id: "m7_fc5", front: "Why might testHasNext_C5 fail in standard Java standard library implementations?", back: "Java's Iterator.hasNext() doesn't check modification counts; only next() and remove() check modCount and throw ConcurrentModificationException." },
+          { id: "m7_fc6", front: "What is an invalid pair constraint in findElement(List, Object)?", back: "(List is null, Element is present in list) is impossible because a null list contains no elements!" },
+          { id: "m7_fc7", front: "In Iterator tests, why is C2 fixed to False for remove()?", back: "remove() returns void (no return object), so return state characteristic C2 is fixed N/A." },
+          { id: "m7_fc8", front: "How many test requirements are in the revised TR table for Iterator.remove()?", back: "5 TRs covering base choice (TFTTT), unsupported (FFTTT), no next called (TFFTT), concurrent mod (TFTTF), etc." }
+        ],
+        mcqs: [
+          {
+            id: "m7_q1",
+            question: "Calling Iterator.remove() twice in a row without calling next() in between throws:",
+            options: ["NullPointerException", "IllegalStateException", "UnsupportedOperationException", "IndexOutOfBoundsException"],
+            correct: 1,
+            explanation: "Precondition C4 requires next() to be called before each remove()."
+          },
+          {
+            id: "m7_q2",
+            question: "In BCC, if combining a base choice with an invalid block causes an infeasible combination, you should:",
+            options: ["Delete the entire characteristic", "Replace the base choice with a compatible non-base choice", "Ignore the failure", "Switch to ACoC"],
+            correct: 1,
+            explanation: "BCC replaces the base choice with a compatible non-base choice for that test case."
+          },
+          {
+            id: "m7_q3",
+            question: "Modifying a Java ArrayList while iterating over it with an Iterator causes next() to throw:",
+            options: ["ConcurrentModificationException", "IllegalStateException", "IllegalArgumentException", "NoSuchElementException"],
+            correct: 0,
+            explanation: "Fail-fast iterators throw ConcurrentModificationException."
+          },
+          {
+            id: "m7_q4",
+            question: "In findElement(List list, Object elem), which combination is logically infeasible?",
+            options: ["list = null, elem = found", "list = empty, elem = null", "list = non-empty, elem = found", "list = non-empty, elem = not found"],
+            correct: 0,
+            explanation: "An element cannot be found in a null list."
+          },
+          {
+            id: "m7_q5",
+            question: "Does Iterator.hasNext() throw ConcurrentModificationException in standard Java?",
+            options: ["Yes, always", "No, typically only next() and remove() check modification counts", "Only in Java 21", "Yes, if list is empty"],
+            correct: 1,
+            explanation: "Standard Java implementations only check modCount inside next() and remove()."
+          },
+          {
+            id: "m7_q6",
+            question: "What is the result of calling next() on an Iterator when hasNext() is false?",
+            options: ["Returns null", "Throws NoSuchElementException", "Throws IllegalStateException", "Loops forever"],
+            correct: 1,
+            explanation: "Reaching end of iterator throws NoSuchElementException on next()."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m7_ar1",
+            title: "Iterator TR Revision Analysis",
+            prompt: "Why was the candidate TR (FTT) for next() revised to (FFT) during the Iterator test design walkthrough in textbook Chapter 6.4?",
+            modelAnswer: "If C1 is False (no more elements in iterator), C2 (returning a valid object) is impossible because next() throws NoSuchElementException instead of returning an object. Therefore, C2 must be False when C1 is False, revising (FTT) to (FFT)."
+          },
+          {
+            id: "m7_ar2",
+            title: "Constraint Identification",
+            prompt: "Given method formatDate(Month m, Day d), list 2 constraints between characteristics C_month (1..12) and C_day (1..31).",
+            modelAnswer: "Constraint 1: If C_month = Feb (2), C_day cannot exceed 29 (or 28 non-leap year).\nConstraint 2: If C_month ∈ {Apr, Jun, Sep, Nov}, C_day cannot be 31."
+          }
+        ]
+      },
+      {
+        id: 8,
+        title: "Overview of Graph Coverage",
+        chapterTag: "Ch 7.1 (Ammann & Offutt)",
+        subtitle: "Graph definitions (N, N0, Nf, E), SESE graphs, paths, syntactic vs semantic reach, deterministic mapping.",
+        notesHtml: `
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2">1. Formal Graph Definition & Properties</h3>
+            <p class="text-xs">A graph $G$ consists of:</p>
+            <ul class="text-xs space-y-1 font-mono">
+              <li>• <strong>N:</strong> Non-empty set of nodes</li>
+              <li>• <strong>N_0:</strong> Non-empty set of initial nodes (N_0 ⊆ N)</li>
+              <li>• <strong>N_f:</strong> Non-empty set of final nodes (N_f ⊆ N)</li>
+              <li>• <strong>E:</strong> Set of directed edges (n_i, n_j)</li>
+            </ul>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs my-3">
+              <div class="bg-slate-800 p-4 rounded-xl border border-emerald-500/30">
+                <strong class="text-emerald-300">Valid Single-Node Graph:</strong>
+                <p class="mt-1 font-mono">N = {n1}, N_0 = {n1}, N_f = {n1}, E = ∅</p>
+                <p class="text-[11px] text-slate-400">Path length = 0 edges. VALID graph!</p>
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-rose-500/30">
+                <strong class="text-rose-400">Invalid Graph Example:</strong>
+                <p class="mt-1 font-mono">N_0 = ∅ (No initial entry node)</p>
+                <p class="text-[11px] text-slate-400">Graph MUST have at least 1 start node!</p>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">2. SESE (Single Entry, Single Exit) Graphs</h3>
+            <div class="p-4 bg-slate-900 border border-slate-700 rounded-2xl text-xs space-y-3">
+              <p>• <strong>SESE Definition:</strong> A graph where $|N_0| = 1$ and $|N_f| = 1$.</p>
+              
+              <!-- Double Diamond Graph SVG -->
+              <div class="my-4 p-4 bg-slate-950 rounded-xl border border-slate-800 flex flex-col items-center">
+                <div class="text-xs font-bold text-brand-300 mb-2">Double-Diamond SESE Graph (4 Test Paths)</div>
+                <svg class="w-full max-w-md h-32" viewBox="0 0 400 100">
+                  <!-- Nodes -->
+                  <circle cx="30" cy="50" r="14" fill="#4f46e5" stroke="#818cf8" stroke-width="2"/>
+                  <text x="30" y="54" fill="#fff" text-anchor="middle" font-size="10" font-weight="bold">1 (N0)</text>
+
+                  <circle cx="120" cy="20" r="12" fill="#334155" stroke="#64748b" stroke-width="2"/>
+                  <text x="120" y="24" fill="#fff" text-anchor="middle" font-size="9">2</text>
+
+                  <circle cx="120" cy="80" r="12" fill="#334155" stroke="#64748b" stroke-width="2"/>
+                  <text x="120" y="84" fill="#fff" text-anchor="middle" font-size="9">3</text>
+
+                  <circle cx="210" cy="50" r="12" fill="#334155" stroke="#64748b" stroke-width="2"/>
+                  <text x="210" y="54" fill="#fff" text-anchor="middle" font-size="9">4</text>
+
+                  <circle cx="290" cy="20" r="12" fill="#334155" stroke="#64748b" stroke-width="2"/>
+                  <text x="290" y="24" fill="#fff" text-anchor="middle" font-size="9">5</text>
+
+                  <circle cx="290" cy="80" r="12" fill="#334155" stroke="#64748b" stroke-width="2"/>
+                  <text x="290" y="84" fill="#fff" text-anchor="middle" font-size="9">6</text>
+
+                  <circle cx="370" cy="50" r="14" fill="#10b981" stroke="#34d399" stroke-width="2"/>
+                  <text x="370" y="54" fill="#fff" text-anchor="middle" font-size="10" font-weight="bold">7 (Nf)</text>
+
+                  <!-- Edges -->
+                  <path d="M44 43 L108 24" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow)"/>
+                  <path d="M44 57 L108 76" stroke="#6366f1" stroke-width="1.5"/>
+                  <path d="M132 24 L198 43" stroke="#6366f1" stroke-width="1.5"/>
+                  <path d="M132 76 L198 57" stroke="#6366f1" stroke-width="1.5"/>
+                  <path d="M222 43 L278 24" stroke="#6366f1" stroke-width="1.5"/>
+                  <path d="M222 57 L278 76" stroke="#6366f1" stroke-width="1.5"/>
+                  <path d="M302 24 L356 43" stroke="#6366f1" stroke-width="1.5"/>
+                  <path d="M302 76 L356 57" stroke="#6366f1" stroke-width="1.5"/>
+                </svg>
+                <div class="text-[11px] text-slate-400 mt-2 font-mono">
+                  Paths: [1,2,4,5,7], [1,2,4,6,7], [1,3,4,5,7], [1,3,4,6,7]
+                </div>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-2 mt-8">3. Syntactic vs Semantic Reachability</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-brand-300">Syntactic Reach:</strong> A subpath of directed graph edges exists structurally in graph $G$.
+              </div>
+              <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                <strong class="text-amber-400">Semantic Reach:</strong> An executable concrete test input exists that causes execution to traverse that path.
+                <p class="text-[11px] text-slate-400 mt-1 font-mono">if (x > 10) { if (x < 5) { ... } } ➔ Syntactically reachable, NOT semantically reachable!</p>
+              </div>
+            </div>
+          </div>
+        `,
+        flashcards: [
+          { id: "m8_fc1", front: "What are the 4 sets defining a formal Graph G?", back: "G = (N, N0, Nf, E) where N is non-empty nodes, N0 non-empty start nodes, Nf non-empty exit nodes, E directed edges." },
+          { id: "m8_fc2", front: "What is a SESE graph?", back: "Single Entry, Single Exit graph (|N0| = 1 and |Nf| = 1)." },
+          { id: "m8_fc3", front: "What is the path length of a single-node graph [n1]?", back: "Length = 0 edges (length is number of edges in path)." },
+          { id: "m8_fc4", front: "Difference between Syntactic Reach vs Semantic Reach?", back: "Syntactic: structural edge path exists in graph. Semantic: executable test input exists that traverses path." },
+          { id: "m8_fc5", front: "Difference between Visiting a node vs Touring a subpath?", back: "Visit: path contains node n. Tour: path contains subpath q as a contiguous sequence of nodes/edges." },
+          { id: "m8_fc6", front: "What is Deterministic Test-to-Path Mapping?", back: "A test case always executes the exact same single test path every time it runs." },
+          { id: "m8_fc7", front: "Can a graph have N0 = ∅?", back: "NO! N0 must be non-empty (at least one initial starting node required)." },
+          { id: "m8_fc8", front: "How many test paths exist in a double-diamond SESE graph with 2 independent sequential binary choices?", back: "2 x 2 = 4 distinct test paths." }
+        ],
+        mcqs: [
+          {
+            id: "m8_q1",
+            question: "A graph with 1 node, 0 edges, 1 start node, and 1 exit node has path length:",
+            options: ["0", "1", "Undefined", "Infinite"],
+            correct: 0,
+            explanation: "Path length equals the number of edges, which is 0."
+          },
+          {
+            id: "m8_q2",
+            question: "Which graph definition is INVALID?",
+            options: ["N={n1}, N0={n1}, Nf={n1}, E={} ", "N={n1,n2}, N0={}, Nf={n2}, E={(n1,n2)}", "N={n1,n2}, N0={n1}, Nf={n2}, E={(n1,n2)}", "SESE Graph with 4 nodes"],
+            correct: 1,
+            explanation: "N0 cannot be empty."
+          },
+          {
+            id: "m8_q3",
+            question: "Code containing 'if (x > 10) { if (x < 5) { foo(); } }' demonstrates:",
+            options: ["Syntactic reachability without semantic reachability", "Semantic reachability without syntactic reachability", "Both syntactic and semantic reachability", "Neither syntactic nor semantic reachability"],
+            correct: 0,
+            explanation: "Structurally reachable in graph (syntactic), but x cannot be both >10 and <5 (semantically unreachable)."
+          },
+          {
+            id: "m8_q4",
+            question: "What defines a SESE Graph?",
+            options: ["|N0| = 1 and |Nf| = 1", "|N| = 1", "|E| = 0", "Graph has no loops"],
+            correct: 0,
+            explanation: "Single Entry, Single Exit."
+          },
+          {
+            id: "m8_q5",
+            question: "If test case t always executes test path p, the mapping is:",
+            options: ["Deterministic", "Non-deterministic", "Random", "Infeasible"],
+            correct: 0,
+            explanation: "Deterministic mapping maps a test case to a single predictable path."
+          },
+          {
+            id: "m8_q6",
+            question: "A test path MUST start in N0 and end in:",
+            options: ["Any node", "Nf (Final nodes)", "N0", "A loop"],
+            correct: 1,
+            explanation: "By definition, a Test Path starts in N0 and ends in Nf."
+          }
+        ],
+        activeRecalls: [
+          {
+            id: "m8_ar1",
+            title: "Path & Subpath Tracing",
+            prompt: "Given path P = [1, 2, 4, 5, 7]. (a) Does P visit node 4? (b) Does P tour subpath [2, 4, 5]? (c) What is the length of P?",
+            modelAnswer: "(a) Yes, node 4 is in P.\n(b) Yes, [2, 4, 5] occurs as a contiguous subpath in P.\n(c) Length = 4 edges (edges: (1,2), (2,4), (4,5), (5,7))."
+          },
+          {
+            id: "m8_ar2",
+            title: "Semantic Reachability Fix",
+            prompt: "Explain why dead code elimination in compilers relies on detecting semantic reachability, and why static CFG analysis alone is insufficient.",
+            modelAnswer: "Static CFG analysis only determines syntactic reachability (structural edges). Code may be syntactically reachable via edges but guarded by impossible logical predicates (e.g. if (false)). Detecting semantic unreachability allows compilers to prune dead code."
+          }
+        ]
+      }
+    ];
+
+    /* Exam Traps for Cram Sheet */
+    const EXAM_TRAPS = [
+      { id: "trap1", text: "Confusing Error vs Failure (Error is internal state, Failure is observable output)." },
+      { id: "trap2", text: "Forgetting that empty list [] and single-element list [42] violate disjointness in {ascending, descending}." },
+      { id: "trap3", text: "Thinking 100% test coverage guarantees 0 bugs (Subsumption is an approximation)." },
+      { id: "trap4", text: "Miscalculating BCC (Formula is 1 + ∑(Bi - 1), NOT ∑Bi)." },
+      { id: "trap5", text: "Assuming path length is node count (Length = edge count = nodes - 1)." },
+      { id: "trap6", text: "Assuming Iterator.hasNext() throws ConcurrentModificationException (Only next()/remove() check modCount)." },
+      { id: "trap7", text: "Confusing Verification ('product right') with Validation ('right product')." },
+      { id: "trap8", text: "Forgetting that Single-Node Graph [n1] is valid with path length 0." }
+    ];
+
+    /* ==========================================================================
+       STATE MANAGEMENT & LOCALSTORAGE
+       ========================================================================== */
+    const STORAGE_KEY = 'cis4150_study_hub_v2';
+
+    let state = {
+      masteredCards: [],
+      mcqAnswers: {}, // { mcqId: chosenIndex }
+      arGrades: {},   // { arId: 'got_it' | 'needs_work' }
+      completedModules: [],
+      cramChecked: {},
+      theme: 'dark'
+    };
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          state = Object.assign(state, JSON.parse(saved));
+        }
+      } catch (e) {
+        console.error("Failed to load state", e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        updateAllStatsUI();
+      } catch (e) {
+        console.error("Failed to save state", e);
+      }
+    }
+
+    /* ==========================================================================
+       UI VIEW ROUTER & NAVIGATION
+       ========================================================================== */
+    let currentView = 'dashboard';
+    let currentModuleId = 1;
+    let currentModuleTab = 'notes';
+
+    // Deck States
+    let modDeck = { cards: [], index: 0, flipped: false };
+    let globalDeck = { cards: [], index: 0, flipped: false };
+
+    function initApp() {
+      loadState();
+      applyTheme(state.theme);
+      renderSidebarNav();
+      renderDashboard();
+      renderPracticeHub();
+      renderCramChecklist();
+      initIspCalculator();
+      updateAllStatsUI();
+      
+      // Setup Keyboard listeners
+      document.addEventListener('keydown', handleGlobalKeydown);
+    }
+
+    function switchView(viewName, modId = null) {
+      currentView = viewName;
+      if (modId) currentModuleId = modId;
+
+      // Hide all panels
+      document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-slate-800', 'text-white'));
+
+      // Close mobile menu if open
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+
+      if (viewName === 'dashboard') {
+        document.getElementById('view-dashboard').classList.remove('hidden');
+        document.getElementById('nav-dashboard').classList.add('bg-slate-800', 'text-white');
+        renderDashboard();
+      } else if (viewName === 'module') {
+        document.getElementById('view-module').classList.remove('hidden');
+        renderModuleView(currentModuleId);
+      } else if (viewName === 'flashcards') {
+        document.getElementById('view-flashcards').classList.remove('hidden');
+        document.getElementById('nav-flashcards').classList.add('bg-slate-800', 'text-white');
+        initGlobalFlashcards();
+      } else if (viewName === 'practice') {
+        document.getElementById('view-practice').classList.remove('hidden');
+        document.getElementById('nav-practice').classList.add('bg-slate-800', 'text-white');
+        renderPracticeHub();
+      } else if (viewName === 'isp-calc') {
+        document.getElementById('view-isp-calc').classList.remove('hidden');
+        document.getElementById('nav-isp-calc').classList.add('bg-slate-800', 'text-white');
+        calculateIsp();
+      } else if (viewName === 'exam') {
+        document.getElementById('view-exam').classList.remove('hidden');
+        document.getElementById('nav-exam').classList.add('bg-slate-800', 'text-white');
+        initExamSetup();
+      } else if (viewName === 'cram') {
+        document.getElementById('view-cram').classList.remove('hidden');
+        document.getElementById('nav-cram').classList.add('bg-slate-800', 'text-white');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderSidebarNav() {
+      const container = document.getElementById('module-nav-list');
+      container.innerHTML = MODULES.map(m => `
+        <button onclick="switchView('module', ${m.id})" id="nav-mod-${m.id}" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+          <span class="truncate">Mod ${m.id}: ${m.title}</span>
+          <span id="nav-mod-badge-${m.id}" class="text-[10px] px-1.5 py-0.5 rounded font-bold bg-slate-800 text-slate-400">0%</span>
+        </button>
+      `).join('');
+    }
+
+    /* ==========================================================================
+       DASHBOARD VIEW RENDERER
+       ========================================================================== */
+    function renderDashboard() {
+      const container = document.getElementById('dash-module-cards');
+      container.innerHTML = MODULES.map(m => {
+        const totalFc = m.flashcards.length;
+        const masteredFc = m.flashcards.filter(fc => state.masteredCards.includes(fc.id)).length;
+        const fcPct = totalFc ? Math.round((masteredFc / totalFc) * 100) : 0;
+
+        const totalMcq = m.mcqs.length;
+        const correctMcq = m.mcqs.filter(q => state.mcqAnswers[q.id] === q.correct).length;
+        const mcqPct = totalMcq ? Math.round((correctMcq / totalMcq) * 100) : 0;
+
+        const overallModPct = Math.round((fcPct + mcqPct) / 2);
+
+        return `
+          <div class="bg-slate-900 border border-slate-800 hover:border-brand-500/40 rounded-2xl p-5 flex flex-col justify-between transition group shadow-sm">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 border border-brand-500/30">Mod ${m.id}</span>
+                <span class="text-xs font-bold text-emerald-400">${overallModPct}%</span>
+              </div>
+              <h4 class="font-bold text-white text-sm mt-2 group-hover:text-brand-300 transition line-clamp-1">${m.title}</h4>
+              <p class="text-xs text-slate-400 mt-1 line-clamp-2">${m.subtitle}</p>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-slate-800/80 space-y-3">
+              <!-- Mini Progress bar -->
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-gradient-to-r from-brand-500 to-emerald-400 h-full" style="width: ${overallModPct}%"></div>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px] text-slate-400">
+                <span>🎴 ${masteredFc}/${totalFc}</span>
+                <span>📝 ${correctMcq}/${totalMcq}</span>
+              </div>
+
+              <button onclick="switchView('module', ${m.id})" class="w-full py-1.5 bg-slate-800 hover:bg-brand-600 text-slate-200 hover:text-white rounded-lg text-xs font-bold transition">
+                Study Module →
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Weak topics recommendation
+      checkWeakestTopic();
+    }
+
+    function checkWeakestTopic() {
+      let lowestMod = null;
+      let lowestScore = 101;
+
+      MODULES.forEach(m => {
+        const totalMcq = m.mcqs.length;
+        const correctMcq = m.mcqs.filter(q => state.mcqAnswers[q.id] === q.correct).length;
+        const score = totalMcq ? (correctMcq / totalMcq) * 100 : 0;
+        if (score < lowestScore) {
+          lowestScore = score;
+          lowestMod = m;
+        }
+      });
+
+      const banner = document.getElementById('weak-topics-banner');
+      if (lowestMod && lowestScore < 80) {
+        banner.classList.remove('hidden');
+        document.getElementById('weak-topic-text').innerText = `You have room for improvement in Module ${lowestMod.id}: ${lowestMod.title} (${Math.round(lowestScore)}% MCQ Accuracy).`;
+        document.getElementById('weak-topic-btn').onclick = () => switchView('module', lowestMod.id);
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+
+    /* ==========================================================================
+       MODULE STUDY HUB VIEW RENDERER
+       ========================================================================== */
+    function renderModuleView(modId) {
+      const mod = MODULES.find(m => m.id === modId);
+      if (!mod) return;
+
+      document.getElementById('module-badge').innerText = `Module ${mod.id}`;
+      document.getElementById('module-chapter-tag').innerText = mod.chapterTag;
+      document.getElementById('module-title').innerText = mod.title;
+      document.getElementById('module-subtitle').innerText = mod.subtitle;
+      document.getElementById('module-counter-text').innerText = `${mod.id} of ${MODULES.length}`;
+
+      document.getElementById('prev-module-btn').disabled = (mod.id === 1);
+      document.getElementById('next-module-btn').disabled = (mod.id === MODULES.length);
+      document.getElementById('prev-module-btn').onclick = () => switchView('module', mod.id - 1);
+      document.getElementById('next-module-btn').onclick = () => switchView('module', mod.id + 1);
+
+      document.getElementById('mod-fc-count').innerText = mod.flashcards.length;
+      document.getElementById('mod-quiz-count').innerText = mod.mcqs.length + mod.activeRecalls.length;
+
+      // Ingest Notes
+      document.getElementById('module-tab-notes').innerHTML = mod.notesHtml;
+
+      // Init Module Deck
+      modDeck.cards = [...mod.flashcards];
+      modDeck.index = 0;
+      modDeck.flipped = false;
+      renderCurrentCard('mod');
+
+      // Ingest MCQs & Active Recall
+      renderModuleMCQs(mod);
+      renderModuleActiveRecall(mod);
+
+      switchModuleTab(currentModuleTab);
+    }
+
+    function switchModuleTab(tabName) {
+      currentModuleTab = tabName;
+      document.querySelectorAll('.module-tab').forEach(b => {
+        b.classList.remove('border-brand-500', 'text-brand-400');
+        b.classList.add('border-transparent', 'text-slate-400');
+      });
+      document.querySelectorAll('.module-tab-content').forEach(c => c.classList.add('hidden'));
+
+      document.getElementById(`tab-btn-${tabName}`).classList.add('border-brand-500', 'text-brand-400');
+      document.getElementById(`tab-btn-${tabName}`).classList.remove('border-transparent', 'text-slate-400');
+      document.getElementById(`module-tab-${tabName}`).classList.remove('hidden');
+    }
+
+    /* ==========================================================================
+       FLASHCARDS ENGINE (3D FLIP & PERSISTENCE)
+       ========================================================================== */
+    function renderCurrentCard(deckType) {
+      const deck = deckType === 'mod' ? modDeck : globalDeck;
+      const inner = document.getElementById(`${deckType}-card-inner`);
+      const card = deck.cards[deck.index];
+
+      if (!card) {
+        document.getElementById(`${deckType}-card-front-text`).innerText = "No cards available in this filter!";
+        document.getElementById(`${deckType}-card-back-text`).innerText = "";
+        return;
+      }
+
+      // Reset flip
+      deck.flipped = false;
+      inner.classList.remove('rotate-y-180');
+
+      // Inject Text
+      document.getElementById(`${deckType}-card-num`).innerText = `Card ${deck.index + 1} of ${deck.cards.length}`;
+      document.getElementById(`${deckType}-card-front-text`).innerText = card.front;
+      document.getElementById(`${deckType}-card-back-text`).innerText = card.back;
+
+      if (deckType === 'global') {
+        const cardModId = card.id.split('_')[0].replace('m', '');
+        document.getElementById('global-card-mod-tag').innerText = `Mod ${cardModId}`;
+      }
+
+      // Mastered status button
+      const isMastered = state.masteredCards.includes(card.id);
+      const btn = document.getElementById(`${deckType}-master-btn`);
+      if (isMastered) {
+        btn.classList.remove('bg-amber-600/20', 'text-amber-300', 'border-amber-500/40');
+        btn.classList.add('bg-amber-600', 'text-white', 'border-amber-500');
+        btn.innerText = '⭐ Mastered!';
+      } else {
+        btn.classList.add('bg-amber-600/20', 'text-amber-300', 'border-amber-500/40');
+        btn.classList.remove('bg-amber-600', 'text-white', 'border-amber-500');
+        btn.innerText = '☆ Mark Mastered';
+      }
+
+      // Update Header Stats
+      if (deckType === 'mod') {
+        const modMastered = deck.cards.filter(c => state.masteredCards.includes(c.id)).length;
+        document.getElementById('mod-fc-mastered-count').innerText = modMastered;
+        document.getElementById('mod-fc-total-count').innerText = deck.cards.length;
+      }
+    }
+
+    function flipCurrentCard(deckType) {
+      const deck = deckType === 'mod' ? modDeck : globalDeck;
+      if (!deck.cards.length) return;
+      deck.flipped = !deck.flipped;
+      const inner = document.getElementById(`${deckType}-card-inner`);
+      if (deck.flipped) {
+        inner.classList.add('rotate-y-180');
+      } else {
+        inner.classList.remove('rotate-y-180');
+      }
+    }
+
+    function nextCard(deckType) {
+      const deck = deckType === 'mod' ? modDeck : globalDeck;
+      if (!deck.cards.length) return;
+      deck.index = (deck.index + 1) % deck.cards.length;
+      renderCurrentCard(deckType);
+    }
+
+    function prevCard(deckType) {
+      const deck = deckType === 'mod' ? modDeck : globalDeck;
+      if (!deck.cards.length) return;
+      deck.index = (deck.index - 1 + deck.cards.length) % deck.cards.length;
+      renderCurrentCard(deckType);
+    }
+
+    function toggleMasterCurrentCard(deckType) {
+      const deck = deckType === 'mod' ? modDeck : globalDeck;
+      const card = deck.cards[deck.index];
+      if (!card) return;
+
+      const idx = state.masteredCards.indexOf(card.id);
+      if (idx > -1) {
+        state.masteredCards.splice(idx, 1);
+      } else {
+        state.masteredCards.push(card.id);
+      }
+      saveState();
+      renderCurrentCard(deckType);
+    }
+
+    function shuffleModuleFlashcards() {
+      modDeck.cards.sort(() => Math.random() - 0.5);
+      modDeck.index = 0;
+      renderCurrentCard('mod');
+    }
+
+    function resetModuleFlashcards() {
+      const mod = MODULES.find(m => m.id === currentModuleId);
+      if (mod) {
+        modDeck.cards = [...mod.flashcards];
+        modDeck.index = 0;
+        renderCurrentCard('mod');
+      }
+    }
+
+    /* GLOBAL FLASHCARDS STUDIO */
+    function initGlobalFlashcards() {
+      filterGlobalDeck();
+    }
+
+    function filterGlobalDeck() {
+      const modFilter = document.getElementById('global-fc-filter-mod').value;
+      const reviewOnly = document.getElementById('global-fc-review-only').checked;
+
+      let allCards = [];
+      MODULES.forEach(m => {
+        if (modFilter === 'all' || modFilter === String(m.id)) {
+          allCards.push(...m.flashcards);
+        }
+      });
+
+      if (reviewOnly) {
+        allCards = allCards.filter(c => !state.masteredCards.includes(c.id));
+      }
+
+      globalDeck.cards = allCards;
+      globalDeck.index = 0;
+      renderCurrentCard('global');
+    }
+
+    function shuffleGlobalDeck() {
+      globalDeck.cards.sort(() => Math.random() - 0.5);
+      globalDeck.index = 0;
+      renderCurrentCard('global');
+    }
+
+    /* ==========================================================================
+       PRACTICE MCQS & ACTIVE RECALL RENDERER
+       ========================================================================== */
+    function renderModuleMCQs(mod) {
+      const container = document.getElementById('mod-mcq-container');
+      
+      const correctCount = mod.mcqs.filter(q => state.mcqAnswers[q.id] === q.correct).length;
+      document.getElementById('mod-mcq-score-badge').innerText = `Score: ${correctCount} / ${mod.mcqs.length}`;
+
+      container.innerHTML = mod.mcqs.map((q, qIdx) => {
+        const userChoice = state.mcqAnswers[q.id];
+        const isAnswered = userChoice !== undefined;
+
+        return `
+          <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+            <div class="flex items-start justify-between">
+              <h4 class="font-bold text-white text-sm flex items-center space-x-2">
+                <span class="text-brand-400">Q${qIdx + 1}.</span>
+                <span>${q.question}</span>
+              </h4>
+            </div>
+
+            <div class="space-y-2">
+              ${q.options.map((opt, oIdx) => {
+                let optStyle = "bg-slate-900 border-slate-700 text-slate-300 hover:border-brand-500/50";
+                if (isAnswered) {
+                  if (oIdx === q.correct) {
+                    optStyle = "bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold";
+                  } else if (oIdx === userChoice) {
+                    optStyle = "bg-rose-950/80 border-rose-500 text-rose-200";
+                  } else {
+                    optStyle = "bg-slate-900 border-slate-800 text-slate-500 opacity-50";
+                  }
+                }
+
+                return `
+                  <button onclick="answerMCQ('${q.id}', ${oIdx})" ${isAnswered ? 'disabled' : ''} class="w-full text-left p-3 rounded-lg border ${optStyle} text-xs transition flex items-center justify-between">
+                    <span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>
+                    ${isAnswered && oIdx === q.correct ? '<span class="text-emerald-400 font-bold">✓ Correct</span>' : ''}
+                    ${isAnswered && oIdx === userChoice && userChoice !== q.correct ? '<span class="text-rose-400 font-bold">✗ Selected</span>' : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            ${isAnswered ? `
+              <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs text-slate-300 space-y-1">
+                <strong class="text-brand-300 font-bold">Rationale:</strong> ${q.explanation}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function answerMCQ(mcqId, optionIdx) {
+      state.mcqAnswers[mcqId] = optionIdx;
+      saveState();
+
+      // Re-render current module MCQs
+      const mod = MODULES.find(m => m.id === currentModuleId);
+      if (mod) renderModuleMCQs(mod);
+    }
+
+    function renderModuleActiveRecall(mod) {
+      const container = document.getElementById('mod-ar-container');
+      container.innerHTML = mod.activeRecalls.map((ar, idx) => {
+        const grade = state.arGrades[ar.id];
+
+        return `
+          <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h4 class="font-bold text-white text-sm">Exercise ${idx + 1}: ${ar.title}</h4>
+              <span class="text-xs px-2 py-0.5 rounded font-bold ${grade === 'got_it' ? 'bg-emerald-500/20 text-emerald-400' : grade === 'needs_work' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-800 text-slate-400'}">
+                ${grade === 'got_it' ? '✓ Mastered' : grade === 'needs_work' ? '⚠️ Needs Work' : 'Unanswered'}
+              </span>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">${ar.prompt}</p>
+
+            <textarea id="ar-input-${ar.id}" rows="3" placeholder="Type out your full answer or math step-by-step here before revealing solution..." class="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:border-brand-500 focus:outline-none"></textarea>
+
+            <div>
+              <button onclick="toggleActiveRecallSolution('${ar.id}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-brand-300 rounded text-xs font-bold transition">
+                Show / Hide Model Solution 👁️
+              </button>
+            </div>
+
+            <div id="ar-solution-${ar.id}" class="hidden p-4 bg-slate-900 rounded-xl border border-slate-800 text-xs space-y-3">
+              <div class="font-bold text-emerald-400">Instructor Model Answer:</div>
+              <pre class="whitespace-pre-wrap font-sans text-slate-300 leading-relaxed">${ar.modelAnswer}</pre>
+
+              <div class="pt-2 border-t border-slate-800 flex items-center space-x-3">
+                <span class="text-slate-400 font-semibold">Self-Evaluate:</span>
+                <button onclick="gradeActiveRecall('${ar.id}', 'got_it')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold transition">
+                  Got It! (+100%)
+                </button>
+                <button onclick="gradeActiveRecall('${ar.id}', 'needs_work')" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold transition">
+                  Needs Work
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleActiveRecallSolution(arId) {
+      const el = document.getElementById(`ar-solution-${arId}`);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    function gradeActiveRecall(arId, status) {
+      state.arGrades[arId] = status;
+      saveState();
+
+      const mod = MODULES.find(m => m.id === currentModuleId);
+      if (mod) renderModuleActiveRecall(mod);
+    }
+
+    /* PRACTICE HUB GLOBAL VIEW */
+    function renderPracticeHub() {
+      const container = document.getElementById('practice-hub-modules');
+      container.innerHTML = MODULES.map(m => {
+        const totalMcqs = m.mcqs.length;
+        const correctMcqs = m.mcqs.filter(q => state.mcqAnswers[q.id] === q.correct).length;
+        const pct = totalMcqs ? Math.round((correctMcqs / totalMcqs) * 100) : 0;
+
+        return `
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <span class="text-[10px] font-bold text-brand-400 uppercase">Module ${m.id}</span>
+                <h3 class="text-lg font-bold text-white">${m.title}</h3>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-black text-emerald-400">${pct}%</div>
+                <div class="text-[10px] text-slate-400">${correctMcqs} / ${totalMcqs} MCQs Correct</div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-400">${m.activeRecalls.length} Active-Recall Tracing Problems</span>
+              <button onclick="switchView('module', ${m.id}); switchModuleTab('practice');" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-lg text-xs transition">
+                Practice Module ${m.id} Questions →
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function resetAllQuizzes() {
+      if (confirm("Are you sure you want to reset all quiz answers?")) {
+        state.mcqAnswers = {};
+        state.arGrades = {};
+        saveState();
+        renderPracticeHub();
+      }
+    }
+
+    /* ==========================================================================
+       INTERACTIVE ISP CALCULATOR & ABSTRACT TEST GENERATOR
+       ========================================================================== */
+    let ispState = [
+      { name: "A (Param 1)", count: 2 },
+      { name: "B (Param 2)", count: 2 },
+      { name: "C (Param 3)", count: 3 },
+      { name: "D (Param 4)", count: 2 }
+    ];
+
+    function initIspCalculator() {
+      renderIspInputs();
+      calculateIsp();
+    }
+
+    function renderIspInputs() {
+      const container = document.getElementById('isp-characteristics-list');
+      container.innerHTML = ispState.map((char, idx) => `
+        <div class="flex items-center space-x-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <input type="text" value="${char.name}" onchange="updateIspCharName(${idx}, this.value)" class="flex-1 bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-xs text-slate-200 font-semibold">
+          <div class="flex items-center space-x-1">
+            <span class="text-[11px] text-slate-400">Blocks:</span>
+            <input type="number" value="${char.count}" min="1" max="10" onchange="updateIspCharCount(${idx}, this.value)" class="w-14 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white text-center font-bold">
+          </div>
+          <button onclick="removeIspCharacteristic(${idx})" class="text-slate-500 hover:text-rose-400 text-sm font-bold px-1">&times;</button>
+        </div>
+      `).join('');
+    }
+
+    function addIspCharacteristic() {
+      const name = String.fromCharCode(65 + ispState.length);
+      ispState.push({ name: `${name} (Param ${ispState.length + 1})`, count: 2 });
+      renderIspInputs();
+      calculateIsp();
+    }
+
+    function removeIspCharacteristic(idx) {
+      if (ispState.length <= 1) return;
+      ispState.splice(idx, 1);
+      renderIspInputs();
+      calculateIsp();
+    }
+
+    function updateIspCharName(idx, val) {
+      ispState[idx].name = val;
+    }
+
+    function updateIspCharCount(idx, val) {
+      ispState[idx].count = Math.max(1, parseInt(val) || 1);
+      calculateIsp();
+    }
+
+    function loadIspPreset(presetType) {
+      if (presetType === 'student') {
+        ispState = [
+          { name: "A", count: 2 },
+          { name: "B", count: 2 },
+          { name: "C", count: 3 },
+          { name: "D", count: 2 }
+        ];
+      } else if (presetType === 'triangle') {
+        ispState = [
+          { name: "Side 1", count: 4 },
+          { name: "Side 2", count: 4 },
+          { name: "Side 3", count: 4 }
+        ];
+      } else if (presetType === 'pwc') {
+        ispState = [
+          { name: "Param A", count: 2 },
+          { name: "Param B", count: 3 },
+          { name: "Param C", count: 2 }
+        ];
+      }
+      renderIspInputs();
+      calculateIsp();
+    }
+
+    function calculateIsp() {
+      const counts = ispState.map(c => c.count);
+      const M = Math.max(1, parseInt(document.getElementById('isp-base-m').value) || 1);
+
+      // ACoC = product
+      const acoc = counts.reduce((a, b) => a * b, 1);
+      // ECC = max
+      const ecc = Math.max(...counts);
+      // BCC = 1 + sum(Bi - 1)
+      const bcc = 1 + counts.reduce((sum, b) => sum + (b - 1), 0);
+      // MBCC = M + sum M(Bi - 1)
+      const mbcc = M + counts.reduce((sum, b) => sum + M * (b - 1), 0);
+
+      // PWC calculation
+      const sorted = [...counts].sort((a, b) => b - a);
+      const pwcBound = sorted.length >= 2 ? sorted[0] * sorted[1] : sorted[0];
+
+      // Total pairs calculation
+      let totalPairs = 0;
+      for (let i = 0; i < counts.length; i++) {
+        for (let j = i + 1; j < counts.length; j++) {
+          totalPairs += counts[i] * counts[j];
+        }
+      }
+
+      document.getElementById('isp-res-acoc').innerText = acoc;
+      document.getElementById('isp-res-ecc').innerText = ecc;
+      document.getElementById('isp-res-bcc').innerText = bcc;
+      document.getElementById('isp-res-mbcc').innerText = mbcc;
+      document.getElementById('isp-res-pwc-pairs').innerText = totalPairs;
+      document.getElementById('isp-res-pwc-bound').innerText = pwcBound;
+
+      renderAbstractTests('BCC');
+    }
+
+    function renderAbstractTests(mode) {
+      const table = document.getElementById('isp-test-table');
+      const chars = ispState.map(c => c.name.split(' ')[0]);
+
+      let tests = [];
+
+      if (mode === 'ECC') {
+        const maxB = Math.max(...ispState.map(c => c.count));
+        for (let i = 0; i < maxB; i++) {
+          const row = ispState.map((c, cIdx) => `${chars[cIdx]}${(i % c.count) + 1}`);
+          tests.push(row);
+        }
+      } else if (mode === 'BCC') {
+        // Base choice: a1, b1, c1, d1...
+        const base = ispState.map((c, cIdx) => `${chars[cIdx]}1`);
+        tests.push(base);
+
+        // Single swaps
+        ispState.forEach((c, cIdx) => {
+          for (let b = 2; b <= c.count; b++) {
+            const row = [...base];
+            row[cIdx] = `${chars[cIdx]}${b}`;
+            tests.push(row);
+          }
+        });
+      } else if (mode === 'ACoC') {
+        // Generate Cartesian product (cap display at 24)
+        function cartesian(args) {
+          return args.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat())));
+        }
+        const blockArrays = ispState.map((c, cIdx) => {
+          const arr = [];
+          for (let b = 1; b <= c.count; b++) arr.push(`${chars[cIdx]}${b}`);
+          return arr;
+        });
+        const full = cartesian(blockArrays);
+        tests = full.slice(0, 24);
+      }
+
+      table.innerHTML = `
+        <thead>
+          <tr class="bg-slate-800 text-slate-200">
+            <th class="p-2 border border-slate-700">Test #</th>
+            ${chars.map(c => `<th class="p-2 border border-slate-700">${c}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800 font-mono text-xs">
+          ${tests.map((t, idx) => `
+            <tr>
+              <td class="p-2 border border-slate-800 font-bold text-brand-400">Test ${idx + 1}</td>
+              ${t.map(val => `<td class="p-2 border border-slate-800">${val}</td>`).join('')}
+            </tr>
+          `).join('')}
+        </tbody>
+      `;
+    }
+
+    /* ==========================================================================
+       TIMED MOCK EXAM ENGINE
+       ========================================================================== */
+    let examState = {
+      questions: [],
+      answers: {},
+      timerInterval: null,
+      secondsRemaining: 0,
+      startTime: 0
+    };
+
+    function initExamSetup() {
+      document.getElementById('exam-setup-panel').classList.remove('hidden');
+      document.getElementById('exam-active-panel').classList.add('hidden');
+      document.getElementById('exam-results-panel').classList.add('hidden');
+
+      const container = document.getElementById('exam-module-options');
+      container.innerHTML = MODULES.map(m => `
+        <label class="flex items-center space-x-2 text-xs text-slate-300 font-semibold bg-slate-800 p-2.5 rounded-lg border border-slate-700 cursor-pointer">
+          <input type="checkbox" value="${m.id}" checked class="exam-mod-check rounded text-rose-500">
+          <span>Mod ${m.id}: ${m.title}</span>
+        </label>
+      `).join('');
+    }
+
+    function startMockExam() {
+      const selectedMods = Array.from(document.querySelectorAll('.exam-mod-check:checked')).map(cb => parseInt(cb.value));
+      if (selectedMods.length === 0) {
+        alert("Please select at least one module for the exam.");
+        return;
+      }
+
+      const qCount = parseInt(document.getElementById('exam-q-count').value);
+      const timerMinutes = parseInt(document.getElementById('exam-timer-opt').value);
+
+      // Collect all MCQs from selected modules
+      let pool = [];
+      MODULES.filter(m => selectedMods.includes(m.id)).forEach(m => {
+        m.mcqs.forEach(q => pool.push({ ...q, modId: m.id }));
+      });
+
+      pool.sort(() => Math.random() - 0.5);
+      examState.questions = pool.slice(0, Math.min(qCount, pool.length));
+      examState.answers = {};
+      examState.startTime = Date.now();
+
+      document.getElementById('exam-setup-panel').classList.add('hidden');
+      document.getElementById('exam-active-panel').classList.remove('hidden');
+
+      renderExamQuestions();
+
+      // Timer Setup
+      if (timerMinutes > 0) {
+        examState.secondsRemaining = timerMinutes * 60;
+        updateTimerDisplay();
+        examState.timerInterval = setInterval(() => {
+          examState.secondsRemaining--;
+          updateTimerDisplay();
+          if (examState.secondsRemaining <= 0) {
+            clearInterval(examState.timerInterval);
+            alert("⏰ Time's up! Submitting your exam now.");
+            submitMockExam();
+          }
+        }, 1000);
+      } else {
+        document.getElementById('exam-timer-display').innerText = "UNTIMED";
+      }
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(examState.secondsRemaining / 60);
+      const secs = examState.secondsRemaining % 60;
+      document.getElementById('exam-timer-display').innerText = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    }
+
+    function renderExamQuestions() {
+      const container = document.getElementById('exam-questions-container');
+      document.getElementById('exam-progress-counter').innerText = `Total Questions: ${examState.questions.length}`;
+
+      container.innerHTML = examState.questions.map((q, idx) => `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-rose-400 uppercase">Question ${idx + 1} of ${examState.questions.length} (Mod ${q.modId})</span>
+          </div>
+          <p class="text-sm font-bold text-white">${q.question}</p>
+          <div class="space-y-2">
+            ${q.options.map((opt, oIdx) => `
+              <label class="flex items-center space-x-3 p-3 bg-slate-950 hover:bg-slate-800 rounded-xl border border-slate-800 cursor-pointer text-xs text-slate-300">
+                <input type="radio" name="exam_q_${q.id}" value="${oIdx}" onchange="examState.answers['${q.id}'] = ${oIdx}" class="text-rose-500">
+                <span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function submitMockExam() {
+      if (examState.timerInterval) clearInterval(examState.timerInterval);
+
+      const total = examState.questions.length;
+      let correct = 0;
+      const modStats = {};
+
+      examState.questions.forEach(q => {
+        if (!modStats[q.modId]) modStats[q.modId] = { correct: 0, total: 0 };
+        modStats[q.modId].total++;
+
+        if (examState.answers[q.id] === q.correct) {
+          correct++;
+          modStats[q.modId].correct++;
+        }
+      });
+
+      const scorePct = total ? Math.round((correct / total) * 100) : 0;
+      const elapsedSecs = Math.floor((Date.now() - examState.startTime) / 1000);
+      const mins = Math.floor(elapsedSecs / 60);
+      const secs = elapsedSecs % 60;
+
+      document.getElementById('exam-active-panel').classList.add('hidden');
+      document.getElementById('exam-results-panel').classList.remove('hidden');
+
+      document.getElementById('exam-final-score').innerText = `${scorePct}%`;
+      document.getElementById('exam-time-taken').innerText = `${mins}:${String(secs).padStart(2,'0')}`;
+      document.getElementById('exam-score-emoji').innerText = scorePct >= 80 ? '🏆' : scorePct >= 60 ? '👍' : '⚠️';
+
+      // Breakdown per module
+      const breakdownContainer = document.getElementById('exam-module-breakdown');
+      breakdownContainer.innerHTML = Object.keys(modStats).map(mId => {
+        const stat = modStats[mId];
+        const pct = Math.round((stat.correct / stat.total) * 100);
+        return `
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
+            <span class="font-bold text-white">Module ${mId}</span>
+            <span class="font-extrabold ${pct >= 80 ? 'text-emerald-400' : 'text-amber-400'}">${stat.correct} / ${stat.total} (${pct}%)</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* ==========================================================================
+       CRAM SHEET CHECKLIST & THEME TOGGLE
+       ========================================================================== */
+    function renderCramChecklist() {
+      const container = document.getElementById('cram-checklist');
+      container.innerHTML = EXAM_TRAPS.map(trap => `
+        <label class="flex items-start space-x-2 p-2.5 bg-slate-950 rounded-lg border border-slate-800 cursor-pointer">
+          <input type="checkbox" id="cram_${trap.id}" ${state.cramChecked[trap.id] ? 'checked' : ''} onchange="toggleCramTrap('${trap.id}')" class="mt-0.5 rounded text-cyan-400">
+          <span class="text-slate-300 font-medium">${trap.text}</span>
+        </label>
+      `).join('');
+    }
+
+    function toggleCramTrap(trapId) {
+      state.cramChecked[trapId] = !state.cramChecked[trapId];
+      saveState();
+    }
+
+    function applyTheme(theme) {
+      state.theme = theme;
+      const html = document.documentElement;
+      if (theme === 'dark') {
+        html.classList.add('dark');
+        document.getElementById('theme-icon-dark').classList.remove('hidden');
+        document.getElementById('theme-icon-light').classList.add('hidden');
+      } else {
+        html.classList.remove('dark');
+        document.getElementById('theme-icon-dark').classList.add('hidden');
+        document.getElementById('theme-icon-light').classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+      saveState();
+    }
+
+    /* ==========================================================================
+       GLOBAL PROGRESS STATS CALCULATOR
+       ========================================================================== */
+    function updateAllStatsUI() {
+      let totalFc = 0;
+      MODULES.forEach(m => totalFc += m.flashcards.length);
+      const masteredFc = state.masteredCards.length;
+      const fcPct = totalFc ? (masteredFc / totalFc) * 100 : 0;
+
+      let totalMcq = 0;
+      let correctMcq = 0;
+      MODULES.forEach(m => {
+        totalMcq += m.mcqs.length;
+        m.mcqs.forEach(q => {
+          if (state.mcqAnswers[q.id] === q.correct) correctMcq++;
+        });
+      });
+      const mcqPct = totalMcq ? (correctMcq / totalMcq) * 100 : 0;
+
+      const overallMastery = Math.round((fcPct + mcqPct) / 2);
+
+      // Header
+      document.getElementById('header-progress-bar').style.width = `${overallMastery}%`;
+      document.getElementById('header-progress-text').innerText = `${overallMastery}%`;
+
+      // Sidebar
+      document.getElementById('sidebar-fc-count').innerText = `${masteredFc} / ${totalFc}`;
+      document.getElementById('sidebar-mcq-score').innerText = `${Math.round(mcqPct)}%`;
+
+      // Dashboard
+      document.getElementById('dash-mastery-pct').innerText = `${overallMastery}%`;
+      document.getElementById('dash-fc-mastered').innerText = `${masteredFc} / ${totalFc}`;
+      document.getElementById('dash-mcq-correct').innerText = `${correctMcq} / ${totalMcq}`;
+      document.getElementById('dash-ar-completed').innerText = `${Object.keys(state.arGrades).length}`;
+
+      // Update sidebar badges per module
+      MODULES.forEach(m => {
+        const mMastered = m.flashcards.filter(c => state.masteredCards.includes(c.id)).length;
+        const mCorrect = m.mcqs.filter(q => state.mcqAnswers[q.id] === q.correct).length;
+        const mPct = Math.round(((mMastered / m.flashcards.length) + (mCorrect / m.mcqs.length)) / 2 * 100);
+        const badge = document.getElementById(`nav-mod-badge-${m.id}`);
+        if (badge) badge.innerText = `${mPct}%`;
+      });
+    }
+
+    function resetAllProgress() {
+      if (confirm("Are you sure you want to reset ALL study progress, flashcards, and quiz answers?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        state = {
+          masteredCards: [],
+          mcqAnswers: {},
+          arGrades: {},
+          completedModules: [],
+          cramChecked: {},
+          theme: 'dark'
+        };
+        saveState();
+        renderDashboard();
+        renderPracticeHub();
+        renderCramChecklist();
+        alert("Progress reset successfully!");
+      }
+    }
+
+    /* Keyboard Navigation for Flashcards */
+    function handleGlobalKeydown(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      if (currentView === 'flashcards' || (currentView === 'module' && currentModuleTab === 'flashcards')) {
+        const deckType = currentView === 'module' ? 'mod' : 'global';
+        if (e.code === 'Space') {
+          e.preventDefault();
+          flipCurrentCard(deckType);
+        } else if (e.code === 'ArrowRight') {
+          e.preventDefault();
+          nextCard(deckType);
+        } else if (e.code === 'ArrowLeft') {
+          e.preventDefault();
+          prevCard(deckType);
+        } else if (e.key === 'm' || e.key === 'M') {
+          e.preventDefault();
+          toggleMasterCurrentCard(deckType);
+        }
+      }
+    }
+
+    /* ==========================================================================
+       EVENT LISTENERS & APP INITIALIZATION
+       ========================================================================== */
+    window.onload = function() {
+      initApp();
+
+      document.getElementById('theme-toggle').onclick = toggleTheme;
+
+      // Mobile Menu
+      document.getElementById('mobile-menu-toggle').onclick = () => {
+        document.getElementById('sidebar').classList.remove('-translate-x-full');
+      };
+      document.getElementById('mobile-menu-close').onclick = () => {
+        document.getElementById('sidebar').classList.add('-translate-x-full');
+      };
+    };
+  </script>
+</body>
+</html>
